@@ -1,0 +1,48 @@
+.resultContainer {
+  list-style: none;
+  width: 500px;
+
+  max-width: 90%;
+}
+
+.resultTitle {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--gray-600);
+}
+
+.resultPlace {
+  border: 1px dotted var(--secondary);
+  text-align: center;
+  border-radius: 0.5rem;
+  font-size: 2rem;
+  padding: 0.5rem;
+}
+
+.resultUser {
+  border: 1px solid var(--gray-600);
+
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 0.5rem;
+
+  font-size: 1rem;
+}
+
+.resultImpostor {
+  border: 2px solid var(--primary);
+}
+
+.resultImpostorIcon {
+  height: 2rem;
+  width: 2rem;
+}

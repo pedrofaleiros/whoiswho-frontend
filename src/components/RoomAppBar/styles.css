@@ -1,0 +1,26 @@
+.roomAppBar {
+  display: flex;
+  width: 100%;
+
+  justify-content: start;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.roomCode {
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.backButton {
+  margin-left: 1rem;
+  background-color: inherit;
+  color: var(--primary);
+}
+
+.backIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+}

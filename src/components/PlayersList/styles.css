@@ -1,0 +1,31 @@
+.playersList {
+  list-style: none;
+  width: 500px;
+
+  max-width: 90%;
+}
+
+.playerListItem {
+  border: 1px solid var(--white);
+  border-radius: 2rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.adm {
+  border: 2px solid var(--secondary);
+}
+
+.playersTitle {
+  margin-top: 1rem;
+  color: var(--gray-600);
+  text-align: start;
+  width: 500px;
+
+  max-width: 90%;
+}

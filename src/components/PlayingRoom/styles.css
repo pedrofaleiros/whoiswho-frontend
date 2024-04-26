@@ -1,0 +1,51 @@
+.playingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 90%;
+  margin: auto;
+}
+
+.impostorContainer {
+  margin-top: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary);
+  gap: 1rem;
+}
+
+.notImpostorContainer {
+  margin-top: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 500px;
+  max-width: 90%;
+}
+
+.playingText {
+  border: 1px solid var(--secondary);
+  width: 100%;
+  border-radius: 0.5rem;
+
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.title {
+  color: var(--gray-600);
+  text-align: start;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
