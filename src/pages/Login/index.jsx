@@ -3,10 +3,12 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { loginService } from "../../services/api";
+import { loginService, signupService } from "../../services/api";
 
 export function LoginPage() {
   const navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useState(true);
 
   const { username, login } = useAuth();
 
@@ -28,7 +30,12 @@ export function LoginPage() {
     }
 
     try {
-      const res = await loginService(inputUsername, password);
+      var res;
+      if (isLogin) {
+        res = await loginService(inputUsername, password);
+      } else {
+        res = await signupService(inputUsername, password);
+      }
 
       const { token, username, id } = res;
 
@@ -49,12 +56,18 @@ export function LoginPage() {
     if (username !== null) {
       navigate(`/`, { replace: true });
     }
-  }, [username]);
+  }, [username, navigate]);
+
+  const changeFormState = (event) => {
+    event.preventDefault();
+
+    setIsLogin(!isLogin);
+  };
 
   return (
     <div>
       <form className="form" onSubmit={handleSubmit}>
-        <p>Insira seus dados</p>
+        <h3 className="auxText">{isLogin ? "Entrar" : "Criar uma conta"}</h3>
 
         <div className="inputContainer">
           <input
@@ -93,7 +106,7 @@ export function LoginPage() {
         </div>
 
         <button className="loginButton" type="submit">
-          Entrar
+          {isLogin ? "Entrar" : "Cadastrar"}
         </button>
 
         {error === "" ? (
@@ -104,7 +117,19 @@ export function LoginPage() {
             <MdWarningAmber />
           </div>
         )}
+
+        <div className="dividerLogin">
+          <div className="solid"></div>
+          <p>ou</p>
+          <div className="solid"></div>
+        </div>
       </form>
+
+      <div className="signupContainer">
+        <button onClick={changeFormState} className="signupButton">
+          {isLogin ? "Criar uma conta" : "Já tenho uma conta"}
+        </button>
+      </div>
     </div>
   );
 }

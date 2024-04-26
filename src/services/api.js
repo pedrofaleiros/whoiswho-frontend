@@ -15,10 +15,41 @@ export const loginService = async (username, password) => {
   }
 };
 
+export const signupService = async (username, password) => {
+  try {
+    const res = await axios.post(`${BASE_URL}/auth/signup`, {
+      username,
+      password,
+    });
+
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const sessionService = async (token) => {
   try {
     const res = await axios.post(
       `${BASE_URL}/session`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createRoomService = async (token) => {
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/room`,
       {},
       {
         headers: {

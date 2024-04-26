@@ -15,7 +15,6 @@ import {
   ImpostorsListADM,
 } from "../../components/ImpostorsList";
 import { PlayingRoom } from "../../components/PlayingRoom";
-import { MdArrowBack } from "react-icons/md";
 import RoomAppBar from "../../components/RoomAppBar";
 
 export function RoomPage() {
@@ -29,6 +28,8 @@ export function RoomPage() {
   const [gameStatus, setGameStatus] = useState("idle");
   const [players, setPlayers] = useState([]);
   const [admId, setAdmId] = useState("");
+
+  const [count, setCount] = useState("");
 
   const [isImpostor, setIsImpostor] = useState(false);
 
@@ -113,6 +114,12 @@ export function RoomPage() {
       } catch (error) {}
     });
 
+    socket.on("count", (data) => {
+      try {
+        setCount(data);
+      } catch (error) {}
+    });
+
     socket.on("disconnect", () => {
       navigate("/", { replace: true });
     });
@@ -171,6 +178,7 @@ export function RoomPage() {
   if (gameStatus === "playing") {
     return (
       <>
+        <RoomAppBar handleClick={handleBackClick} roomCode={room} />
         {gameData !== null && (
           <PlayingRoom
             admId={admId}
@@ -188,6 +196,8 @@ export function RoomPage() {
   return (
     <div className="roomContainer">
       <RoomAppBar handleClick={handleBackClick} roomCode={room} />
+
+      <p className="count">{count}</p>
 
       <PlayersList players={players} admId={admId} userId={userId} />
 

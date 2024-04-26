@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
-import { sessionService } from "../../services/api";
+import { createRoomService, sessionService } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 import "./styles.css";
@@ -51,11 +51,27 @@ export default function HomePage() {
     navigate(`/room/${roomCode}`);
   };
 
+  const handleCreateRoom = async (event) => {
+    event.preventDefault();
+
+    const token = Cookies.get("@whoiswho.token");
+    if (!token) {
+      toast.warning("Faça login para criar uma sala");
+      return;
+    }
+    try {
+      const response = await createRoomService(token);
+      const roomCode = response.roomCode;
+
+      navigate(`/room/${roomCode}`);
+    } catch (error) {}
+  };
+
   return (
-    <div>
+    <div className="homeContainer">
       <HomeAppBar />
       <form className="codeForm" onSubmit={handleSubmit}>
-        <p>Insira seus dados</p>
+        <p className="enterTitle">Entrar em uma sala</p>
 
         <input
           type="number"
@@ -68,7 +84,19 @@ export default function HomePage() {
         <button className="joinButton" type="submit">
           Entrar
         </button>
+
+        <div className="divider">
+          <div className="solid"></div>
+          <p>ou</p>
+          <div className="solid"></div>
+        </div>
       </form>
+
+      <div className="createContainer">
+        <button onClick={handleCreateRoom} className="createButton">
+          Criar uma sala
+        </button>
+      </div>
     </div>
   );
 }

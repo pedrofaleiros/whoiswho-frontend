@@ -8,6 +8,7 @@
 .startButton,
 .finishButton {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   background-color: inherit;
   padding: 0.5rem 3rem;
   border: 2px solid var(--secondary);
@@ -20,4 +21,10 @@
 .startButton:hover,
 .finishButton:hover {
   background-color: var(--white);
+}
+
+.count {
+  color: var(--secondary-light);
+  font-weight: 600;
+  font-size: 1.5rem;
 }
