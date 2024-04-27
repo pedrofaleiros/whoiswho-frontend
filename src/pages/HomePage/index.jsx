@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-
-import Cookies from "js-cookie";
-import { createRoomService, sessionService } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-
-import "./styles.css";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { createRoomService, sessionService } from "../../services/api";
 import { HomeAppBar } from "../../components/HomeAppBar";
 
-import { toast } from "react-toastify";
-
-import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState("");
 
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   const navigate = useNavigate();
 
@@ -27,7 +24,9 @@ export default function HomePage() {
           const { token, username, id } = response;
 
           login(username, token, id);
-        } catch (error) {}
+        } catch (error) {
+          logout();
+        }
       }
     };
 

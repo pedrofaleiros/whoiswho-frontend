@@ -17,10 +17,14 @@ import {
 import { PlayingRoom } from "../../components/PlayingRoom";
 import RoomAppBar from "../../components/RoomAppBar";
 
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 export function RoomPage() {
   const { room } = useParams();
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -30,9 +34,7 @@ export function RoomPage() {
   const [admId, setAdmId] = useState("");
 
   const [count, setCount] = useState("");
-
   const [isImpostor, setIsImpostor] = useState(false);
-
   const [gameData, setGameData] = useState(null);
 
   useEffect(() => {
@@ -64,6 +66,11 @@ export function RoomPage() {
     });
 
     socket.on(SocketConst.GAME_STATUS, (data) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
+
       try {
         setGameStatus(data);
       } catch (error) {}
@@ -175,6 +182,15 @@ export function RoomPage() {
     socket.disconnect();
   };
 
+  if (loading) {
+    return (
+      <div className="loadingPage">
+        <RoomAppBar handleClick={handleBackClick} roomCode={room} />
+        <AiOutlineLoading3Quarters className="spinner" />
+      </div>
+    );
+  }
+
   if (gameStatus === "playing") {
     return (
       <>
@@ -197,7 +213,11 @@ export function RoomPage() {
     <div className="roomContainer">
       <RoomAppBar handleClick={handleBackClick} roomCode={room} />
 
-      <p className="count">{count}</p>
+      {count !== "" && (
+        <div className="overlay">
+          <p className="count">{count}</p>
+        </div>
+      )}
 
       <PlayersList players={players} admId={admId} userId={userId} />
 

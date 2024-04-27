@@ -18,13 +18,50 @@
   font-size: 1.25rem;
 }
 
-.startButton:hover,
-.finishButton:hover {
-  background-color: var(--white);
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .count {
-  color: var(--secondary-light);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+
+  padding: 2rem 1rem;
+  border-radius: 0px 0px 1rem 1rem;
+  color: var(--dark);
+  background: var(--white);
+  text-align: center;
+
+  width: 100%;
+}
+
+.spinner {
+  animation: spin 1.5s linear infinite;
+
+  margin-top: 30vh;
+  height: 3rem;
+  width: 3rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
+}
+.loadingPage {
+  text-align: center;
+  align-items: center;
+  color: var(--secondary);
 }

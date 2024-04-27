@@ -1,6 +1,9 @@
 import io from "socket.io-client";
+import { BASE_URL } from "./services/api";
 
-const socket = io("http://172.30.4.48:8080", {
+const baseUrl = BASE_URL;
+
+const socket = io(baseUrl, {
   autoConnect: false,
 });
 
