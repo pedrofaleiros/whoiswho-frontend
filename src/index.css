@@ -47,11 +47,18 @@ h6 {
 
 :root {
   --primary: #d10c00;
+  --primary-light: #FF453A;
   --secondary: #0a84ff;
   --secondary-light: #70b7ff;
+  --secondary-dark: #0051A3;
   --dark: #0b141b;
   --white: #ffffff;
   --gray-600: #8e8e93;
+  --gray-500: #636366;
+  --gray-400: #48484a;
+  --gray-300: #3a3a3c;
+  --gray-200: #2c2c2e;
+  --gray-100: #1c1c1e;
 }
 
 body {

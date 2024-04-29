@@ -12,6 +12,11 @@ export function PlayingRoom({
 }) {
   return (
     <div className="playingContainer">
+      {admId === userId && (
+        <button className="finishButton" onClick={handleFinishGame}>
+          Finalizar partida
+        </button>
+      )}
       {professions.map((p) => {
         if (p.playerId === userId) {
           if (p.isImpostor) {
@@ -32,12 +37,6 @@ export function PlayingRoom({
           );
         }
       })}
-
-      {admId === userId && (
-        <button className="finishButton" onClick={handleFinishGame}>
-          Finalizar partida
-        </button>
-      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// export const BASE_URL = "http://172.30.4.48:8080";
-export const BASE_URL = "http://192.168.0.129:8080";
+export const BASE_URL = "http://172.30.4.48:8080";
+// export const BASE_URL = "http://192.168.0.129:8080";
 
 export const loginService = async (username, password) => {
   try {

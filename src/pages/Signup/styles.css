@@ -1,0 +1,30 @@
+.signupButton {
+  margin-top: 0.5rem;
+  background-color: var(--secondary-light);
+  color: var(--dark);
+  padding: 0.75rem;
+
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.signupLink {
+  color: var(--secondary);
+}
+
+.loading {
+  animation: spin 1.5s linear infinite;
+
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
+}

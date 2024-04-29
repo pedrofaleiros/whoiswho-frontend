@@ -3,17 +3,18 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { loginService, signupService } from "../../services/api";
+import { signupService } from "../../services/api";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export function LoginPage() {
+export function SignupPage() {
   const navigate = useNavigate();
 
   const { username, login } = useAuth();
 
   const [inputUsername, setInputUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConf, setPasswordConf] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,21 +32,26 @@ export function LoginPage() {
       return;
     }
 
+    if (password !== passwordConf) {
+      setError("Confirme sua senha");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const res = await loginService(inputUsername, password);
+      const res = await signupService(inputUsername, password);
 
       const { token, username, id } = res;
 
       if (token && username && id) {
         login(username, token, id);
+        setLoading(false);
         navigate(`/`, { replace: true });
       }
-      setLoading(false);
     } catch (error) {
+      setLoading(false);
       try {
-        setLoading(false);
         if (error.response.data.message) {
           setError(error.response.data.message);
         }
@@ -65,7 +71,7 @@ export function LoginPage() {
     <div>
       <AuthAppBar />
       <form className="form" onSubmit={handleSubmit}>
-        <h3 className="auxText">{"Entrar"}</h3>
+        <h3 className="auxText">Criar uma conta</h3>
 
         <div className="inputContainer">
           <input
@@ -103,11 +109,38 @@ export function LoginPage() {
           )}
         </div>
 
-        <button className="loginButton" type="submit">
+        <div className="inputContainer">
+          <input
+            className="input"
+            value={passwordConf}
+            onChange={(e) => setPasswordConf(e.target.value)}
+            placeholder="Confirme sua senha"
+            type={showPassword ? "text" : "password"}
+          />
+          {showPassword ? (
+            <MdVisibility
+              className="viewButton icon"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          ) : (
+            <MdVisibilityOff
+              className="viewButton icon"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            />
+          )}
+        </div>
+
+        <button className="signupButton" type="submit">
           {loading ? (
             <AiOutlineLoading3Quarters className="loading" />
           ) : (
-            "Entrar"
+            "Cadastrar"
           )}
         </button>
 
@@ -128,8 +161,8 @@ export function LoginPage() {
       </form>
 
       <div className="signupContainer">
-        <Link className="loginLink" to="/signup">
-          Criar uma conta
+        <Link className="signupLink" to="/login">
+          Já tenho uma conta
         </Link>
       </div>
     </div>

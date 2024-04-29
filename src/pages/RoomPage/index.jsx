@@ -219,6 +219,12 @@ export function RoomPage() {
         </div>
       )}
 
+      {admId === userId && (
+        <button className="startButton" onClick={handleStartGame}>
+          Iniciar partida
+        </button>
+      )}
+
       <PlayersList players={players} admId={admId} userId={userId} />
 
       {admId === userId ? (
@@ -238,12 +244,6 @@ export function RoomPage() {
             professions={gameData.professions}
           />
         </>
-      )}
-
-      {admId === userId && (
-        <button className="startButton" onClick={handleStartGame}>
-          Iniciar partida
-        </button>
       )}
     </div>
   );
