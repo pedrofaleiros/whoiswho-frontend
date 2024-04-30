@@ -1,5 +1,12 @@
 import { destroyCookie, setCookie } from "nookies";
-import { createContext, FC, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 
 interface LoginParams {
   username: string;
@@ -24,7 +31,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  const login = (p: LoginParams) => {
+  const login = useCallback((p: LoginParams) => {
     setCookie(null, "@whoiswho.token", p.token, {
       path: "/",
       maxAge: 1 * 24 * 60 * 60,
@@ -37,14 +44,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     setToken(p.token);
     setUsername(p.username);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     destroyCookie(null, "@whoiswho.token");
     destroyCookie(null, "@whoiswho.userId");
     setToken(null);
     setUsername(null);
-  };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ username, token, login, logout }}>

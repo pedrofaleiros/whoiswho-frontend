@@ -1,13 +1,12 @@
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { MdLogout } from "react-icons/md";
 
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 
 import "./styles.css";
 
 export function HomeAppBar() {
-  const { username, logout } = useAuth();
+  const { username } = useAuth();
 
   return (
     <div className="appBar">
@@ -22,10 +21,12 @@ export function HomeAppBar() {
             Entrar
           </Link>
         ) : (
-          <p className="username">{username}</p>
+          <Link to="/profile">
+            <p className="username">{username}</p>
+          </Link>
         )}
 
-        {username !== null ? <MdLogout onClick={logout} /> : <></>}
+        {/* {username !== null ? <MdLogout onClick={logout} /> : <></>} */}
       </div>
     </div>
   );

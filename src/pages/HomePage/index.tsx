@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
-import { createRoomService, sessionService } from "../../services/api";
 import { HomeAppBar } from "../../components/HomeAppBar";
 
 import "./styles.css";
 import { parseCookies } from "nookies";
+import { sessionService } from "../../services/auth";
+import { createRoomService } from "../../services/api";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
@@ -18,7 +19,6 @@ export default function HomePage() {
   useEffect(() => {
     const session = async () => {
       const _token = parseCookies()["@whoiswho.token"];
-
       if (_token) {
         try {
           const response = await sessionService(_token);

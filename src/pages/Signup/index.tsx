@@ -3,7 +3,7 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { signupService } from "../../services/api";
+import { signupService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axios from "axios";
@@ -68,9 +68,7 @@ export function SignupPage() {
   };
 
   useEffect(() => {
-    if (username !== null) {
-      navigate(`/`, { replace: true });
-    }
+    if (username !== null) navigate(`/`, { replace: true });
   }, [username, navigate]);
 
   return (

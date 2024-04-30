@@ -8,6 +8,8 @@ import { RoomPage } from "./pages/RoomPage";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import ProfilePage from "./pages/ProfilePage";
+import PlacesPage from "./pages/PlacesPage";
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/room/:room" element={<RoomPage />} />
+          <Route path="/places" element={<PlacesPage />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -1,0 +1,21 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+
+  gap: 1rem;
+}
+
+.profileContainer button {
+  width: min-content;
+  background-color: inherit;
+  color: var(--white);
+}
+
+.profileContainer button:hover {
+  color: var(--gray-600);
+}
+
+.profileLink:hover {
+    color: var(--primary-light);
+}
