@@ -1,14 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import React from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import HomePage from "./pages/HomePage";
 import { LoginPage } from "./pages/Login";
+import { SignupPage } from "./pages/Signup";
 import { RoomPage } from "./pages/RoomPage";
 
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { SignupPage } from "./pages/Signup";
 
 function App() {
   return (

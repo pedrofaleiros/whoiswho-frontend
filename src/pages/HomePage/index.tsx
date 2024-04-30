@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { createRoomService, sessionService } from "../../services/api";
 import { HomeAppBar } from "../../components/HomeAppBar";
 
 import "./styles.css";
+import { parseCookies } from "nookies";
 
 export default function HomePage() {
-  const [roomCode, setRoomCode] = useState("");
+  const [roomCode, setRoomCode] = useState<string>("");
 
   const { login, logout } = useAuth();
 
@@ -17,13 +17,18 @@ export default function HomePage() {
 
   useEffect(() => {
     const session = async () => {
-      const _token = Cookies.get("@whoiswho.token");
+      const _token = parseCookies()["@whoiswho.token"];
+
       if (_token) {
         try {
           const response = await sessionService(_token);
           const { token, username, id } = response;
 
-          login(username, token, id);
+          login({
+            token: token,
+            userId: id,
+            username: username,
+          });
         } catch (error) {
           logout();
         }
@@ -31,9 +36,9 @@ export default function HomePage() {
     };
 
     session();
-  }, [login]);
+  }, [login, logout]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (roomCode.length !== 4) {
@@ -41,7 +46,7 @@ export default function HomePage() {
       return;
     }
 
-    const token = Cookies.get("@whoiswho.token");
+    const token = parseCookies()["@whoiswho.token"];
     if (!token) {
       toast.warning("Faça login para entrar em uma sala");
       return;
@@ -50,10 +55,12 @@ export default function HomePage() {
     navigate(`/room/${roomCode}`);
   };
 
-  const handleCreateRoom = async (event) => {
+  const handleCreateRoom = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
 
-    const token = Cookies.get("@whoiswho.token");
+    const token = parseCookies()["@whoiswho.token"];
     if (!token) {
       toast.warning("Faça login para criar uma sala");
       return;

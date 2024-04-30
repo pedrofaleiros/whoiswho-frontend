@@ -3,7 +3,6 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 
 import socket from "../../socket";
-import Cookies from "js-cookie";
 
 import { SocketConst } from "../../utils/SocketConst";
 import { toast } from "react-toastify";
@@ -18,30 +17,36 @@ import { PlayingRoom } from "../../components/PlayingRoom";
 import RoomAppBar from "../../components/RoomAppBar";
 
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { parseCookies } from "nookies";
+import { PlayerModel } from "../../models/PlayerModel";
+import { GameModel, ProfessionModel } from "../../models/GameModel";
 
 export function RoomPage() {
   const { room } = useParams();
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>("");
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const [impostors, setImpostors] = useState(0);
-  const [gameStatus, setGameStatus] = useState("idle");
-  const [players, setPlayers] = useState([]);
-  const [admId, setAdmId] = useState("");
+  const [gameStatus, setGameStatus] = useState<string>("idle");
+  const [admId, setAdmId] = useState<string>("");
 
-  const [count, setCount] = useState("");
-  const [isImpostor, setIsImpostor] = useState(false);
-  const [gameData, setGameData] = useState(null);
+  const [impostors, setImpostors] = useState<number>(0);
+
+  const [players, setPlayers] = useState<PlayerModel[]>([]);
+
+  const [count, setCount] = useState<string>("");
+
+  const [gameData, setGameData] = useState<GameModel | null>(null);
 
   useEffect(() => {
-    const _token = Cookies.get("@whoiswho.token");
-    const _userId = Cookies.get("@whoiswho.userId");
+    const cookies = parseCookies();
+    const _token = cookies["@whoiswho.token"];
+    const _userId = cookies["@whoiswho.userId"];
 
-    if (_token && _userId) {
+    if (_token && _userId && room !== undefined) {
       setToken(_token);
       setUserId(_userId);
     } else {
@@ -67,10 +72,7 @@ export function RoomPage() {
 
     socket.on(SocketConst.GAME_STATUS, (data) => {
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 100);
-
+      setTimeout(() => setLoading(false), 100);
       try {
         setGameStatus(data);
       } catch (error) {}
@@ -78,18 +80,13 @@ export function RoomPage() {
 
     socket.on(SocketConst.GAME_PLAYERS, (data) => {
       try {
+        const players = data["players"] as PlayerModel[];
+        setPlayers(players);
         setAdmId(data["admId"]);
-        const list = data["players"].map((p) => {
-          return {
-            id: p["id"],
-            username: p["username"],
-          };
-        });
-        setPlayers(list);
       } catch (error) {}
     });
 
-    socket.on(SocketConst.DISCONNECT_ERROR, (data) => {
+    socket.on(SocketConst.ERROR, (data) => {
       if (data) {
         toast.warning(data);
       }
@@ -97,20 +94,10 @@ export function RoomPage() {
 
     socket.on(SocketConst.GAME_DATA, (data) => {
       try {
-        const list = data["professions"].map((p) => {
-          if (p["playerId"] === userId) {
-            setIsImpostor(p["isImpostor"]);
-          }
-          return {
-            username: p["username"],
-            playerId: p["playerId"],
-            isImpostor: p["isImpostor"],
-            profession: p["profession"],
-          };
-        });
+        const professions = data["professions"] as ProfessionModel[];
         setGameData({
-          place: data["place"],
-          professions: list,
+          place: data["place"] as string,
+          professions: professions,
         });
       } catch (error) {}
     });
@@ -137,7 +124,7 @@ export function RoomPage() {
     };
   }, [room, token, userId, navigate]);
 
-  const addImpostor = (event) => {
+  const addImpostor = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (impostors >= 3) return;
@@ -149,7 +136,7 @@ export function RoomPage() {
     });
   };
 
-  const removeImpostor = (event) => {
+  const removeImpostor = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     if (impostors <= 1) return;
@@ -161,23 +148,17 @@ export function RoomPage() {
     });
   };
 
-  const handleStartGame = (event) => {
+  const handleStartGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    socket.emit(SocketConst.START_GAME, {
-      token: token,
-    });
+    socket.emit(SocketConst.START_GAME, { token: token });
   };
 
-  const handleFinishGame = (event) => {
+  const handleFinishGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    socket.emit(SocketConst.FINISH_GAME, {
-      token: token,
-    });
+    socket.emit(SocketConst.FINISH_GAME, { token: token });
   };
 
-  const handleBackClick = (event) => {
+  const handleBackClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     socket.disconnect();
   };
@@ -185,23 +166,21 @@ export function RoomPage() {
   if (loading) {
     return (
       <div className="loadingPage">
-        <RoomAppBar handleClick={handleBackClick} roomCode={room} />
+        <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
         <AiOutlineLoading3Quarters className="spinner" />
       </div>
     );
   }
 
-  if (gameStatus === "playing") {
+  if (gameStatus === "playing" && gameData !== null) {
     return (
       <>
-        <RoomAppBar handleClick={handleBackClick} roomCode={room} />
+        <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
         {gameData !== null && (
           <PlayingRoom
             admId={admId}
-            isImpostor={isImpostor}
-            place={gameData.place}
-            professions={gameData.professions}
             userId={userId}
+            game={gameData}
             handleFinishGame={handleFinishGame}
           />
         )}
@@ -211,7 +190,7 @@ export function RoomPage() {
 
   return (
     <div className="roomContainer">
-      <RoomAppBar handleClick={handleBackClick} roomCode={room} />
+      <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
 
       {count !== "" && (
         <div className="overlay">
@@ -227,15 +206,15 @@ export function RoomPage() {
 
       <PlayersList players={players} admId={admId} userId={userId} />
 
-      {admId === userId ? (
+      {admId === userId && (
         <ImpostorsListADM
           impostors={impostors}
           handleAdd={addImpostor}
           handleRemove={removeImpostor}
         />
-      ) : (
-        <ImpostorsList impostors={impostors} />
       )}
+
+      {admId !== userId && <ImpostorsList impostors={impostors} />}
 
       {gameStatus === "finished" && gameData !== null && (
         <>

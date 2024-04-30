@@ -1,6 +1,4 @@
-import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { MdLogout } from "react-icons/md";
 
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 

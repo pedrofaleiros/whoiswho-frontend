@@ -1,11 +1,12 @@
 import "./styles.css";
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
+import { GameModel } from "../../models/GameModel";
 
-export default function GameResult({ place, professions }) {
+export default function GameResult({ place, professions }: GameModel) {
   return (
     <div className="resultContainer">
       <h6 className="resultTitle">Resultado</h6>
-      {<p className="resultPlace">{place ?? ""}</p>}
+      {<p className="resultPlace">{place}</p>}
       {professions.map((p) => {
         if (p.isImpostor) {
           return (
@@ -15,6 +16,7 @@ export default function GameResult({ place, professions }) {
             </div>
           );
         }
+
         return (
           <div className="resultUser" key={p.playerId}>
             <p>{`${p.username}: `}</p>

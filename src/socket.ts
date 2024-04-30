@@ -3,8 +3,6 @@ import { BASE_URL } from "./services/api";
 
 const baseUrl = BASE_URL;
 
-const socket = io(baseUrl, {
-  autoConnect: false,
-});
+const socket = io(baseUrl, { autoConnect: false });
 
 export default socket;

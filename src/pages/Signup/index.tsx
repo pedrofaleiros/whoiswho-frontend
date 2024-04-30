@@ -6,23 +6,23 @@ import { useAuth } from "../../contexts/AuthContext";
 import { signupService } from "../../services/api";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import axios from "axios";
 
 export function SignupPage() {
   const navigate = useNavigate();
 
   const { username, login } = useAuth();
 
-  const [inputUsername, setInputUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConf, setPasswordConf] = useState("");
+  const [inputUsername, setInputUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConf, setPasswordConf] = useState<string>("");
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     setError("");
@@ -40,24 +40,30 @@ export function SignupPage() {
     setLoading(true);
 
     try {
-      const res = await signupService(inputUsername, password);
+      const res = await signupService({
+        username: inputUsername,
+        password: password,
+      });
 
       const { token, username, id } = res;
 
       if (token && username && id) {
-        login(username, token, id);
+        login({
+          token: token,
+          userId: id,
+          username: username,
+        });
         setLoading(false);
         navigate(`/`, { replace: true });
       }
+      setLoading(false);
     } catch (error) {
       setLoading(false);
-      try {
-        if (error.response.data.message) {
+      if (axios.isAxiosError(error)) {
+        if (error && error.response && error.response.data) {
           setError(error.response.data.message);
         }
-      } catch (error) {}
-    } finally {
-      setLoading(false);
+      }
     }
   };
 
@@ -144,7 +150,7 @@ export function SignupPage() {
           )}
         </button>
 
-        {error === "" ? (
+        {error === null ? (
           <></>
         ) : (
           <div className="error-container">

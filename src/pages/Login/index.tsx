@@ -3,28 +3,29 @@ import "./styles.css";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { loginService, signupService } from "../../services/api";
+import { loginService } from "../../services/api";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import axios from "axios";
 
 export function LoginPage() {
   const navigate = useNavigate();
 
   const { username, login } = useAuth();
 
-  const [inputUsername, setInputUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputUsername, setInputUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setError("");
+    setError(null);
 
     if (inputUsername === "" || password === "") {
       setError("Preencha todos os campos");
@@ -34,24 +35,30 @@ export function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await loginService(inputUsername, password);
+      const res = await loginService({
+        username: inputUsername,
+        password: password,
+      });
 
       const { token, username, id } = res;
 
       if (token && username && id) {
-        login(username, token, id);
+        login({
+          token: token,
+          username: username,
+          userId: id,
+        });
         navigate(`/`, { replace: true });
       }
+
       setLoading(false);
     } catch (error) {
-      try {
-        setLoading(false);
-        if (error.response.data.message) {
-          setError(error.response.data.message);
-        }
-      } catch (error) {}
-    } finally {
       setLoading(false);
+      if (axios.isAxiosError(error)) {
+        if (error && error.response && error.response.data) {
+          setError(error.response.data.message ?? "Erro no servidor.");
+        }
+      }
     }
   };
 
@@ -111,7 +118,7 @@ export function LoginPage() {
           )}
         </button>
 
-        {error === "" ? (
+        {error === null ? (
           <></>
         ) : (
           <div className="error-container">

@@ -1,6 +1,17 @@
+import { PlayerModel } from "../../models/PlayerModel";
 import "./styles.css";
 
-export default function PlayersList({ players, admId, userId }) {
+interface PlayersListProps {
+  players: PlayerModel[];
+  admId: string;
+  userId: string;
+}
+
+export default function PlayersList({
+  players,
+  admId,
+  userId,
+}: PlayersListProps) {
   return (
     <>
       <h6 className="playersTitle">Jogadores</h6>

@@ -1,15 +1,21 @@
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
+import { GameModel } from "../../models/GameModel";
 
 import "./styles.css";
 
+interface PlayingRoomProps {
+  userId: string;
+  admId: string;
+  game: GameModel;
+  handleFinishGame: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
 export function PlayingRoom({
-  isImpostor,
-  place,
-  professions,
   userId,
   admId,
+  game,
   handleFinishGame,
-}) {
+}: PlayingRoomProps) {
   return (
     <div className="playingContainer">
       {admId === userId && (
@@ -17,7 +23,7 @@ export function PlayingRoom({
           Finalizar partida
         </button>
       )}
-      {professions.map((p) => {
+      {game.professions.map((p) => {
         if (p.playerId === userId) {
           if (p.isImpostor) {
             return (
@@ -27,15 +33,17 @@ export function PlayingRoom({
               </div>
             );
           }
+
           return (
             <div key={p.playerId} className="notImpostorContainer">
               <h6 className="title">Local</h6>
-              <p className="playingPlace playingText">{place}</p>
+              <p className="playingPlace playingText">{game.place}</p>
               <h6 className="title">Profissão</h6>
               <p className="playingProfession playingText">{p.profession}</p>
             </div>
           );
         }
+        return <></>;
       })}
     </div>
   );
