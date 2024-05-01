@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { PlaceModel } from "../../models/PlaceModel";
 
-import "./styles.css";
-
 interface PlaceListItemProps {
   place: PlaceModel;
 }

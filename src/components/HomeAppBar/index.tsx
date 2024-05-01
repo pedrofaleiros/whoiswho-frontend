@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 
-import "./styles.css";
-
 export function HomeAppBar() {
   const { username } = useAuth();
 

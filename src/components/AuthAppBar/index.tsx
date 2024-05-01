@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 
-import "./styles.css";
-
 export function AuthAppBar() {
   return (
     <div className="appBar">
