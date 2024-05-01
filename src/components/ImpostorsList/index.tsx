@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 import { MdAdd, MdRemove } from "react-icons/md";
 
@@ -15,14 +13,14 @@ interface ImpostorsListADMProps {
 
 function ImpostorsList({ impostors }: ImpostorsListProps) {
   return (
-    <>
-      <h6 className="impostorsTitle">Impostores</h6>
-      <ul className="impostorsList">
+    <div className="m-4">
+      <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
+      <ul className="flex flex-row justify-center gap-4">
         {Array.from({ length: impostors }, (_, index) => (
-          <Impostor className="impostorIcon" key={index} />
+          <Impostor className="h-12 w-12" key={index} />
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 
@@ -32,22 +30,30 @@ function ImpostorsListADM({
   handleRemove,
 }: ImpostorsListADMProps) {
   return (
-    <>
-      <h6 className="impostorsTitle">Impostores</h6>
-      <ul className="impostorsList">
-        <button className="setImpostorButton" onClick={handleRemove}>
+    <div className="m-4">
+      <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
+      <ul className="my-4 flex flex-row justify-between">
+        <button
+          className="border-gray-400 border-2 rounded-full px-4 text-gray-400 "
+          onClick={handleRemove}
+        >
           <MdRemove />
         </button>
 
-        {Array.from({ length: impostors }, (_, index) => (
-          <Impostor className="impostorIcon" key={index} />
-        ))}
+        <div className="flex flex-row gap-4">
+          {Array.from({ length: impostors }, (_, index) => (
+            <Impostor className="h-12 w-12" key={index} />
+          ))}
+        </div>
 
-        <button className="setImpostorButton" onClick={handleAdd}>
+        <button
+          className="border-gray-400 border-2 rounded-full px-4 text-gray-400"
+          onClick={handleAdd}
+        >
           <MdAdd />
         </button>
       </ul>
-    </>
+    </div>
   );
 }
 

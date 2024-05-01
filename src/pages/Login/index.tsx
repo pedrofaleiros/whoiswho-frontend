@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import "./styles.css";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";

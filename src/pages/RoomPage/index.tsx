@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import "./styles.css";
 import { useEffect, useState } from "react";
 
 import socket from "../../socket";
@@ -189,22 +188,31 @@ export function RoomPage() {
   }
 
   return (
-    <div className="roomContainer">
+    <div className="bg-gray-900  text-gray-300 overflow-hidden ">
       <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
 
       {count !== "" && (
-        <div className="overlay">
-          <p className="count">{count}</p>
+        <div className="fixed top-0 left-0 w-screen h-screen bg-opacity-50 bg-black text-center">
+          <p className="bg-gray-300 mx-8 mt-48 rounded-lg py-8 px-2 text-gray-900 font-bold text-xl">
+            {count}
+          </p>
         </div>
       )}
 
       {admId === userId && (
-        <button className="startButton" onClick={handleStartGame}>
-          Iniciar partida
-        </button>
+        <div className="text-center w-full pt-4 px-4">
+          <button
+            className="font-sans border-2 border-blue-500 w-full max-w-96 py-2 rounded-xl text-blue-500 font-medium text-xl hover:bg-gray-950"
+            onClick={handleStartGame}
+          >
+            Iniciar partida
+          </button>
+        </div>
       )}
 
       <PlayersList players={players} admId={admId} userId={userId} />
+
+      <hr className="mt-8 mx-4 h-0.5 border-t-0 bg-gray-800" />
 
       {admId === userId && (
         <ImpostorsListADM
@@ -215,6 +223,8 @@ export function RoomPage() {
       )}
 
       {admId !== userId && <ImpostorsList impostors={impostors} />}
+
+      <hr className="mt-8 mx-4 h-0.5 border-t-0 bg-gray-800" />
 
       {gameStatus === "finished" && gameData !== null && (
         <>

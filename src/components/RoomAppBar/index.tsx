@@ -1,5 +1,4 @@
 import { MdArrowBack } from "react-icons/md";
-import "./styles.css";
 
 interface RoomAppBarProps {
   roomCode: string;
@@ -8,11 +7,12 @@ interface RoomAppBarProps {
 
 export default function RoomAppBar({ roomCode, handleClick }: RoomAppBarProps) {
   return (
-    <div className="roomAppBar">
-      <button className="backButton" onClick={handleClick}>
-        <MdArrowBack className="backIcon" />
+    <div className="p-3 flex flex-row text-red-700 bg-gray-950 justify-between">
+      <button className="hover:text-red-500" onClick={handleClick}>
+        <MdArrowBack className="size-7" />
       </button>
-      <p className="roomCode">{`Sala ${roomCode}`}</p>
+      <p className="font-medium text-2xl">{`Sala ${roomCode}`}</p>
+      <div className="size-7"></div>
     </div>
   );
 }

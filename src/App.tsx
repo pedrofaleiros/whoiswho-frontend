@@ -13,19 +13,21 @@ import PlacesPage from "./pages/PlacesPage";
 
 function App() {
   return (
-    <AuthProvider>
-      <ToastContainer />
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/room/:room" element={<RoomPage />} />
-          <Route path="/places" element={<PlacesPage />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <div className="bg-gray-900 min-h-screen">
+      <AuthProvider>
+        <ToastContainer />
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/room/:room" element={<RoomPage />} />
+            <Route path="/places" element={<PlacesPage />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import { PlayerModel } from "../../models/PlayerModel";
-import "./styles.css";
 
 interface PlayersListProps {
   players: PlayerModel[];
@@ -13,13 +12,16 @@ export default function PlayersList({
   userId,
 }: PlayersListProps) {
   return (
-    <>
-      <h6 className="playersTitle">Jogadores</h6>
-      <ul className="playersList">
+    <div className="m-4 flex flex-col">
+      <h6 className="text-lg text-gray-400 font-semibold">Jogadores</h6>
+      <ul className="w-full">
         {players.map((p) => {
           if (p.id === admId) {
             return (
-              <li className="playerListItem adm" key={p.id}>
+              <li
+                className="mt-2 flex flex-row justify-between border-2 rounded-full px-4 py-2 border-blue-300 "
+                key={p.id}
+              >
                 <p>{`${p.username}`}</p>
                 <p>(ADM)</p>
               </li>
@@ -27,12 +29,15 @@ export default function PlayersList({
           }
 
           return (
-            <li className="playerListItem" key={p.id}>
+            <li
+              className="mt-2 flex flex-row border-2 rounded-full px-4 py-2 border-gray-500 "
+              key={p.id}
+            >
               {`${p.username} ${p.id === userId ? "(Você)" : ""}`}
             </li>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

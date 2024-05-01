@@ -4,7 +4,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { HomeAppBar } from "../../components/HomeAppBar";
 
-import "./styles.css";
 import { parseCookies } from "nookies";
 import { sessionService } from "../../services/auth";
 import { createRoomService } from "../../services/api";
@@ -74,34 +73,45 @@ export default function HomePage() {
   };
 
   return (
-    <div className="homeContainer">
+    <div className=" bg-gray-900 h-screen text-white">
       <HomeAppBar />
-      <form className="codeForm" onSubmit={handleSubmit}>
-        <p className="enterTitle">Entrar em uma sala</p>
 
-        <input
-          type="number"
-          className="codeInput"
-          value={roomCode}
-          onChange={(e) => setRoomCode(e.target.value)}
-          placeholder="Código"
-        />
+      <div className="items-center flex flex-col justify-center mt-4 gap-4">
+        <p className="text-xl font-medium">Entrar em uma sala</p>
+        <form
+          className="items-center flex flex-col gap-2"
+          onSubmit={handleSubmit}
+        >
+          <input
+            className="text-gray-300 text-center bg-gray-950  rounded-lg p-2 text-lg focus:border-2 focus:outline-none focus:border-blue-700"
+            type="number"
+            value={roomCode}
+            onChange={(e) => setRoomCode(e.target.value)}
+            placeholder="Código"
+          />
 
-        <button className="joinButton" type="submit">
-          Entrar
-        </button>
+          <button
+            className=" bg-blue-700 hover:bg-blue-600 text-gray-900 font-bold px-4 py-2 rounded-lg w-full"
+            type="submit"
+          >
+            Entrar
+          </button>
+        </form>
 
-        <div className="divider">
-          <div className="solid"></div>
-          <p>ou</p>
-          <div className="solid"></div>
+        <div className="flex flex-row items-center gap-4 ">
+          <hr className="h-[0.5px]  w-16 bg-blue-700 mt-1 border-none" />
+          <p className="text-gray-500 text-sm">ou</p>
+          <hr className="h-[0.5px]  w-16 bg-blue-700 mt-1 border-none" />
         </div>
-      </form>
 
-      <div className="createContainer">
-        <button onClick={handleCreateRoom} className="createButton">
-          Criar uma sala
-        </button>
+        <div className="">
+          <button
+            className="w-full bg-inherit border-blue-700 border-2 rounded-lg px-4 py-2 text-blue-700 font-bold hover:bg-gray-950"
+            onClick={handleCreateRoom}
+          >
+            Criar uma sala
+          </button>
+        </div>
       </div>
     </div>
   );

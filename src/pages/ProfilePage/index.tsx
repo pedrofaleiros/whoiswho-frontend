@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
 
-import "./styles.css";
 
 export default function ProfilePage() {
   const { username, logout } = useAuth();

@@ -1,4 +1,15 @@
-* {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -23,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica", sans-serif; /* Exemplo de fonte para títulos */
+  font-family: "Helvetica", sans-serif;
 }
 
 h1 {
@@ -47,10 +58,10 @@ h6 {
 
 :root {
   --primary: #d10c00;
-  --primary-light: #FF453A;
+  --primary-light: #ff453a;
   --secondary: #0a84ff;
   --secondary-light: #70b7ff;
-  --secondary-dark: #0051A3;
+  --secondary-dark: #0051a3;
   --dark: #0b141b;
   --white: #ffffff;
   --gray-600: #8e8e93;
@@ -82,4 +93,4 @@ button {
 
 button {
   border: none;
-}
+} */
