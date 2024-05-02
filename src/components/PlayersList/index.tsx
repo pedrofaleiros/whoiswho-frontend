@@ -19,7 +19,7 @@ export default function PlayersList({
           if (p.id === admId) {
             return (
               <li
-                className="mt-2 flex flex-row justify-between border-2 rounded-full px-4 py-2 border-blue-300 "
+                className="mt-2 flex flex-row justify-between border-2 rounded-lg px-4 py-2 border-blue-300 "
                 key={p.id}
               >
                 <p>{`${p.username}`}</p>
@@ -30,7 +30,7 @@ export default function PlayersList({
 
           return (
             <li
-              className="mt-2 flex flex-row border-2 rounded-full px-4 py-2 border-gray-500 "
+              className="mt-2 flex flex-row border-2 rounded-lg px-4 py-2 border-gray-500 "
               key={p.id}
             >
               {`${p.username} ${p.id === userId ? "(Você)" : ""}`}

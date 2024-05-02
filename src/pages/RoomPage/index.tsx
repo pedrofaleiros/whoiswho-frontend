@@ -188,7 +188,7 @@ export function RoomPage() {
   }
 
   return (
-    <div className="bg-gray-900  text-gray-300 overflow-hidden ">
+    <div className="  text-gray-300 overflow-hidden ">
       <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
 
       {count !== "" && (
@@ -202,7 +202,7 @@ export function RoomPage() {
       {admId === userId && (
         <div className="text-center w-full pt-4 px-4">
           <button
-            className="font-sans border-2 border-blue-500 w-full max-w-96 py-2 rounded-xl text-blue-500 font-medium text-xl hover:bg-gray-950"
+            className="font-sans border-2 border-blue-500 w-full max-w-96 py-2 rounded-xl text-blue-500 font-medium text-xl hover:bg-gray-900"
             onClick={handleStartGame}
           >
             Iniciar partida

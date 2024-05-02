@@ -33,7 +33,7 @@ export function PlayingRoom({
       {admId === userId && (
         <div className="text-center w-full p-4">
           <button
-            className="border-2 border-blue-500 w-full max-w-96 py-2 rounded-full text-blue-500 font-medium text-xl hover:bg-gray-950"
+            className="border-2 border-blue-500 w-full max-w-96 py-2 rounded-full text-blue-500 font-medium text-xl hover:bg-gray-900"
             onClick={handleFinishGame}
           >
             Finalizar partida
