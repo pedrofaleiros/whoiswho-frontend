@@ -32,7 +32,7 @@ export function SignupPage() {
     }
 
     if (password !== passwordConf) {
-      setError("Confirme sua senha");
+      setError("As senhas estão diferentes");
       return;
     }
 

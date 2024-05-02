@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import PlaceListItem from "../../components/PlaceListTile";
 import { Link, useNavigate } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState<PlaceModel[]>([]);
@@ -37,7 +38,7 @@ export default function PlacesPage() {
     };
 
     getPlaces();
-  }, [token]);
+  }, [token, navigate]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -104,11 +105,19 @@ export default function PlacesPage() {
         </button>
       </div>
 
-      <ul>
-        {places.map((place) => (
-          <PlaceListItem place={place} />
-        ))}
-      </ul>
+      {isLoading && (
+        <div className="flex  justify-center mt-32">
+          <AiOutlineLoading3Quarters className="animate-spin w-12 h-12  text-blue-500" />
+        </div>
+      )}
+
+      {isLoading === false && (
+        <ul>
+          {places.map((place) => (
+            <PlaceListItem key={place.id} place={place} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

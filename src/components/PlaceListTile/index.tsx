@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlaceModel } from "../../models/PlaceModel";
-import { MdExpand, MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 interface PlaceListItemProps {
   place: PlaceModel;
@@ -16,7 +16,10 @@ export default function PlaceListItem({ place }: PlaceListItemProps) {
   };
 
   return (
-    <div className=" border-2 border-gray-300 m-4 rounded-lg p-4 cursor-pointer ">
+    <div
+      key={place.id}
+      className=" border-2 border-gray-300 m-4 rounded-lg p-4 cursor-pointer "
+    >
       <div className="flex flex-row items-center justify-between">
         <h4 className="text-xl text-gray-300 font-semibold font-mono">
           {place.name}
@@ -31,9 +34,9 @@ export default function PlaceListItem({ place }: PlaceListItemProps) {
 
       {showProfessions ? (
         <ol className="pt-2 transition-all duration-500 ease-in-out max-h-96 overflow-hidden">
-          {place.professions.map((prof, index) => (
+          {place.professions.map((prof) => (
             <li
-              key={index}
+              key={`${prof.id}expand`}
               className="text-lg py-1 font-medium text-blue-200 border-b-[1px] border-gray-600"
             >
               {prof.name}
@@ -42,9 +45,9 @@ export default function PlaceListItem({ place }: PlaceListItemProps) {
         </ol>
       ) : (
         <ol className="transition-all duration-500 ease-in-out max-h-0 overflow-hidden">
-          {place.professions.map((prof, index) => (
+          {place.professions.map((prof) => (
             <li
-              key={index}
+              key={prof.id}
               className="text-lg py-1 font-medium text-blue-200 border-b-[1px] border-gray-600"
             >
               {prof.name}

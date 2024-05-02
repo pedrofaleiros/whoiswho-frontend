@@ -14,14 +14,17 @@ export function HomeAppBar() {
       </div>
 
       {username === null && (
-        <Link className="text-blue-700 hover:text-blue-400 " to="/login">
-          Entrar
+        <Link
+          className="text-blue-700 hover:text-blue-400 font-medium text-base "
+          to="/login"
+        >
+          Entrar / Cadastrar
         </Link>
       )}
 
       {username !== null && (
         <Link to="/profile">
-          <p className=" text-lg text-blue-700 hover:text-blue-400 font-bold">
+          <p className=" text-lg text-blue-400 hover:text-blue-200 font-bold">
             {username}
           </p>
         </Link>
