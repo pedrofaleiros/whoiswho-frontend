@@ -15,7 +15,7 @@ import {
 import { PlayingRoom } from "../../components/PlayingRoom";
 import RoomAppBar from "../../components/RoomAppBar";
 
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { BiLoaderCircle } from "react-icons/bi";
 import { parseCookies } from "nookies";
 import { PlayerModel } from "../../models/PlayerModel";
 import { GameModel, ProfessionModel } from "../../models/GameModel";
@@ -164,9 +164,9 @@ export function RoomPage() {
 
   if (loading) {
     return (
-      <div className="loadingPage">
+      <div className="flex flex-col items-center w-full">
         <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
-        <AiOutlineLoading3Quarters className="spinner" />
+        <BiLoaderCircle className="animate-spin h-10 w-10 mt-16" />
       </div>
     );
   }

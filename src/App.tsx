@@ -13,7 +13,7 @@ import PlacesPage from "./pages/PlacesPage";
 
 function App() {
   return (
-    <div className="bg-gray-800 min-h-screen text-gray-200">
+    <div className="min-h-screen bg-gray-950 text-gray-100">
       <AuthProvider>
         <ToastContainer />
         <Router>

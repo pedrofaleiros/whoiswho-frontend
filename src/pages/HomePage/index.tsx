@@ -6,7 +6,8 @@ import { HomeAppBar } from "../../components/HomeAppBar";
 
 import { parseCookies } from "nookies";
 import { sessionService } from "../../services/auth";
-import { createRoomService } from "../../services/api";
+import { createRoomService, getUserRoomService } from "../../services/api";
+import { MdLogin } from "react-icons/md";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
@@ -14,6 +15,9 @@ export default function HomePage() {
   const { login, logout } = useAuth();
 
   const navigate = useNavigate();
+
+  const [userToken, setUserToken] = useState<string | null>(null);
+  const [lastRoom, setLastRoom] = useState<string | null>(null);
 
   useEffect(() => {
     const session = async () => {
@@ -28,7 +32,16 @@ export default function HomePage() {
             userId: id,
             username: username,
           });
+
+          setUserToken(token);
+
+          const data = await getUserRoomService(token);
+          if (typeof data.roomCode === "string") {
+            setLastRoom(data.roomCode);
+          }
         } catch (error) {
+          setUserToken(null);
+          setLastRoom(null);
           logout();
         }
       }
@@ -45,8 +58,7 @@ export default function HomePage() {
       return;
     }
 
-    const token = parseCookies()["@whoiswho.token"];
-    if (!token) {
+    if (!userToken) {
       toast.warning("Faça login para entrar em uma sala");
       return;
     }
@@ -54,18 +66,35 @@ export default function HomePage() {
     navigate(`/room/${roomCode}`);
   };
 
+  const handleJoinLastRoom = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+
+    if (lastRoom === null) {
+      toast.warning("Código da sala inválido");
+      return;
+    }
+
+    if (!userToken) {
+      toast.warning("Faça login para entrar em uma sala");
+      return;
+    }
+
+    navigate(`/room/${lastRoom}`);
+  };
+
   const handleCreateRoom = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
 
-    const token = parseCookies()["@whoiswho.token"];
-    if (!token) {
+    if (!userToken) {
       toast.warning("Faça login para criar uma sala");
       return;
     }
     try {
-      const response = await createRoomService(token);
+      const response = await createRoomService(userToken);
       const roomCode = response.roomCode;
 
       navigate(`/room/${roomCode}`);
@@ -73,17 +102,19 @@ export default function HomePage() {
   };
 
   return (
-    <div className="w-full h-screen text-white">
+    <div className="text-center items-center flex flex-col justify-center">
       <HomeAppBar />
 
-      <div className="items-center flex flex-col justify-center mt-4 gap-4 ">
-        <p className="text-lg font-medium">Entrar em uma sala</p>
+      <div className="w-2/3 max-w-xs flex flex-col items-center">
+        {/*  */}
         <form
-          className="items-center flex flex-col gap-2 w-2/3 max-w-xs"
+          className="w-full flex flex-col mt-8 gap-2"
           onSubmit={handleSubmit}
         >
+          <p className="text-xl font-mono font-semibold">Entrar em uma sala</p>
+
           <input
-            className="text-gray-300 text-center bg-gray-950 border-2 border-gray-500 w-full rounded-lg p-2 text-xl focus:border-2 focus:outline-none focus:border-blue-600 font-mono"
+            className="rounded-md bg-gray-900 border-2 border-gray-500 px-2 py-2 text-center text-xl focus:border-gray-300 focus:bg-gray-800 hover:bg-gray-800 outline-none"
             type="number"
             value={roomCode}
             onChange={(e) => setRoomCode(e.target.value)}
@@ -91,27 +122,35 @@ export default function HomePage() {
           />
 
           <button
-            className=" bg-blue-600 hover:bg-blue-400 text-gray-900 font-bold px-4 py-2 rounded-lg w-full text-xl"
+            className="bg-blue-700 rounded-md py-2 text-base font-medium hover:bg-blue-500"
             type="submit"
           >
             Entrar
           </button>
         </form>
 
-        <div className="flex flex-row items-center gap-4 ">
-          <hr className="h-[0.5px]  w-16 bg-gray-500 mt-1 border-none" />
+        {userToken && lastRoom && (
+          <button
+            onClick={handleJoinLastRoom}
+            className="flex flex-row items-center gap-2 mt-4 font-mono font-bold text-base text-green-500 hover:bg-gray-900 rounded-md py-2 w-full text-center justify-center"
+          >
+            {`Sala ${lastRoom}`}
+            <MdLogin className="h-6 w-6" />
+          </button>
+        )}
+
+        <div className="flex flex-row items-center gap-4 my-4">
+          <hr className="h-[0.5px]  w-24 bg-gray-500 mt-1 border-none" />
           <p className="text-gray-500 text-sm font-medium">ou</p>
-          <hr className="h-[0.5px]  w-16 bg-gray-500 mt-1 border-none" />
+          <hr className="h-[0.5px]  w-24 bg-gray-500 mt-1 border-none" />
         </div>
 
-        <div className="w-full text-center">
-          <button
-            className="bg-inherit border-blue-600 border-2 rounded-lg px-8 py-2 text-blue-600 font-bold hover:bg-gray-900"
-            onClick={handleCreateRoom}
-          >
-            Criar uma sala
-          </button>
-        </div>
+        <button
+          className="rounded-md py-2 px-8 text-base font-medium border-2 hover:bg-gray-900"
+          onClick={handleCreateRoom}
+        >
+          Criar uma sala
+        </button>
       </div>
     </div>
   );

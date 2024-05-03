@@ -22,6 +22,23 @@ export const createRoomService = async (token: string) => {
   }
 };
 
+export const getUserRoomService = async (token: string) => {
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/room/last`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getPlacesService = async (token: string, text: string | null): Promise<PlaceModel[]> => {
   try {
     const res = await axios.get(

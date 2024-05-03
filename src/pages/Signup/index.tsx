@@ -161,7 +161,7 @@ export function SignupPage() {
           )}
         </button>
 
-        {error !== null && (
+        {error !== null && error !== "" && (
           <div className="mb-3 flex flex-row items-center justify-center text-red-500  font-medium gap-2 text-sm">
             <p className="">{error}</p>
             <MdWarningAmber />

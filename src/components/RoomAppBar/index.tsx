@@ -7,7 +7,7 @@ interface RoomAppBarProps {
 
 export default function RoomAppBar({ roomCode, handleClick }: RoomAppBarProps) {
   return (
-    <div className="p-3 flex flex-row text-red-700 bg-gray-950 justify-between">
+    <div className="w-full items-center p-3 flex flex-row text-red-700 bg-gray-950 justify-between">
       <button className="hover:text-red-500" onClick={handleClick}>
         <MdArrowBack className="size-7" />
       </button>

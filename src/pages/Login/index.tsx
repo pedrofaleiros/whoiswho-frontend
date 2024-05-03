@@ -4,8 +4,8 @@ import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
 import { loginService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import axios from "axios";
+import { BiLoaderCircle } from "react-icons/bi";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -66,31 +66,29 @@ export function LoginPage() {
   }, [username, navigate]);
 
   return (
-    <div className="w-full justify-center flex flex-col text-center items-center">
+    <div className="w-full flex flex-col items-center">
       <AuthAppBar />
 
       <form
         onSubmit={handleSubmit}
-        className="px-6 max-w-x bg-gray-100 mt-4 border-t-8 border-blue-700 text-start rounded-lg flex flex-col"
+        className="w-2/3 max-w-xs text-center flex flex-col gap-2 mt-3"
       >
-        <h1 className="my-4 font-medium text-2xl text-center text-gray-900">
-          Fazer login
-        </h1>
+        <h1 className="text-2xl font-mono font-semibold">Fazer login</h1>
 
         <input
-          className="appearance-none border-2 rounded-lg w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-600 focus:bg-white text-gray-700 font-mono pr-16 "
+          className="appearance-none border-2 rounded-md w-full py-2 px-3 border-gray-500 bg-gray-900 focus:outline-none focus:border-gray-300 focus:bg-gray-800 hover:bg-gray-800 font-mono "
           type="text"
           value={inputUsername}
           onChange={(e) => setInputUsername(e.target.value)}
           placeholder="Nome de usuário"
         />
 
-        <div className="mt-2 relative w-full">
+        <div className="relative w-full">
           <div className="absolute inset-y-0 right-0 flex items-center px-2">
             <input className="hidden js-password-toggle" id="toggle" />
             {showPassword ? (
               <MdVisibility
-                className="h-6 w-6 text-gray-400 cursor-pointer"
+                className="h-6 w-6 text-gray-500 cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault();
                   setShowPassword(!showPassword);
@@ -98,7 +96,7 @@ export function LoginPage() {
               />
             ) : (
               <MdVisibilityOff
-                className="h-6 w-6 text-gray-400 cursor-pointer"
+                className="h-6 w-6 text-gray-500 cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault();
                   setShowPassword(!showPassword);
@@ -107,7 +105,7 @@ export function LoginPage() {
             )}
           </div>
           <input
-            className="appearance-none border-2 rounded-lg w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:outline-none focus:border-blue-600 focus:bg-white text-gray-700 pr-16 font-mono js-password"
+            className="appearance-none border-2 rounded-md w-full py-2 px-3 border-gray-500 bg-gray-900 focus:outline-none focus:border-gray-300 focus:bg-gray-800 hover:bg-gray-800 font-mono js-password"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -116,25 +114,25 @@ export function LoginPage() {
         </div>
 
         <button
-          className="my-4 w-full bg-blue-600 items-center flex justify-center hover:bg-blue-500  text-white font-medium py-3 rounded-lg focus:outline-none focus:shadow-outline "
+          className="bg-blue-700 rounded-md py-2 text-base font-medium hover:bg-blue-500 mt-2 flex justify-center"
           type="submit"
         >
           {loading ? (
-            <AiOutlineLoading3Quarters className="animate-spin w-6 h-6" />
+            <BiLoaderCircle className="animate-spin w-6 h-6" />
           ) : (
             "Entrar"
           )}
         </button>
 
         {error !== null && (
-          <div className="mb-3 flex flex-row items-center justify-center text-red-500  font-medium gap-2 text-sm">
+          <div className="flex flex-row items-center justify-center text-red-500  font-medium gap-2 text-sm">
             <p className="">{error}</p>
             <MdWarningAmber />
           </div>
         )}
       </form>
 
-      <div className="my-6 w-full text-center justify-center flex flex-col items-center gap-3">
+      <div className="mt-6 w-full text-center justify-center flex flex-col items-center gap-6">
         <div className="flex flex-row items-center gap-4 ">
           <hr className="h-[0.5px]  w-24 bg-gray-400 mt-1 border-none" />
           <p className="text-gray-400 text-sm font-medium">ou</p>
