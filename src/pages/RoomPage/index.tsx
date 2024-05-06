@@ -19,6 +19,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { parseCookies } from "nookies";
 import { PlayerModel } from "../../models/PlayerModel";
 import { GameModel, ProfessionModel } from "../../models/GameModel";
+import { SecondaryButton } from "../../components/common/Buttons";
 
 export function RoomPage() {
   const { room } = useParams();
@@ -188,7 +189,7 @@ export function RoomPage() {
   }
 
   return (
-    <div className="  text-gray-300 overflow-hidden ">
+    <div className="  text-gray-300 overflow-hidden w-full items-center flex flex-col">
       <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
 
       {count !== "" && (
@@ -200,39 +201,40 @@ export function RoomPage() {
       )}
 
       {admId === userId && (
-        <div className="text-center w-full pt-4 px-4">
-          <button
-            className="font-sans border-2 border-blue-500 w-full max-w-96 py-2 rounded-xl text-blue-500 font-medium text-xl hover:bg-gray-900"
-            onClick={handleStartGame}
-          >
-            Iniciar partida
-          </button>
-        </div>
+        <SecondaryButton onClick={handleStartGame} text="Iniciar partida" />
       )}
 
-      <PlayersList players={players} admId={admId} userId={userId} />
+      <div className="w-full">
+        <PlayersList players={players} admId={admId} userId={userId} />
+      </div>
 
       <hr className="mt-8 mx-4 h-0.5 border-t-0 bg-gray-800" />
 
       {admId === userId && (
-        <ImpostorsListADM
-          impostors={impostors}
-          handleAdd={addImpostor}
-          handleRemove={removeImpostor}
-        />
+        <div className="w-full">
+          <ImpostorsListADM
+            impostors={impostors}
+            handleAdd={addImpostor}
+            handleRemove={removeImpostor}
+          />
+        </div>
       )}
 
-      {admId !== userId && <ImpostorsList impostors={impostors} />}
+      {admId !== userId && (
+        <div className="w-full">
+          <ImpostorsList impostors={impostors} />
+        </div>
+      )}
 
       <hr className="mt-8 mx-4 h-0.5 border-t-0 bg-gray-800" />
 
       {gameStatus === "finished" && gameData !== null && (
-        <>
+        <div className="w-full">
           <GameResult
             place={gameData.place}
             professions={gameData.professions}
           />
-        </>
+        </div>
       )}
     </div>
   );

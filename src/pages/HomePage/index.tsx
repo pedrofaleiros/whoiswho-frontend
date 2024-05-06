@@ -8,6 +8,11 @@ import { parseCookies } from "nookies";
 import { sessionService } from "../../services/auth";
 import { createRoomService, getUserRoomService } from "../../services/api";
 import { MdLogin } from "react-icons/md";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  TextButton,
+} from "../../components/common/Buttons";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
@@ -105,7 +110,7 @@ export default function HomePage() {
     <div className="text-center items-center flex flex-col justify-center">
       <HomeAppBar />
 
-      <div className="w-2/3 max-w-xs flex flex-col items-center">
+      <div className="w-2/3 max-w-xs flex flex-col items-center gap-2">
         {/*  */}
         <form
           className="w-full flex flex-col mt-8 gap-2"
@@ -121,22 +126,15 @@ export default function HomePage() {
             placeholder="Código"
           />
 
-          <button
-            className="bg-blue-700 rounded-md py-2 text-base font-medium hover:bg-blue-500"
-            type="submit"
-          >
-            Entrar
-          </button>
+          <PrimaryButton text="Entrar" type="submit" />
         </form>
 
         {userToken && lastRoom && (
-          <button
+          <TextButton
+            text={`Sala ${lastRoom}`}
+            children={<MdLogin />}
             onClick={handleJoinLastRoom}
-            className="flex flex-row items-center gap-2 mt-4 font-mono font-bold text-base text-green-500 hover:bg-gray-900 rounded-md py-2 w-full text-center justify-center"
-          >
-            {`Sala ${lastRoom}`}
-            <MdLogin className="h-6 w-6" />
-          </button>
+          />
         )}
 
         <div className="flex flex-row items-center gap-4 my-4">
@@ -145,12 +143,7 @@ export default function HomePage() {
           <hr className="h-[0.5px]  w-24 bg-gray-500 mt-1 border-none" />
         </div>
 
-        <button
-          className="rounded-md py-2 px-8 text-base font-medium border-2 hover:bg-gray-900"
-          onClick={handleCreateRoom}
-        >
-          Criar uma sala
-        </button>
+        <SecondaryButton text="Criar uma sala" onClick={handleCreateRoom} />
       </div>
     </div>
   );

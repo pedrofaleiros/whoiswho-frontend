@@ -1,5 +1,6 @@
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 import { MdAdd, MdRemove } from "react-icons/md";
+import { IconButton } from "../common/Buttons";
 
 interface ImpostorsListProps {
   impostors: number;
@@ -33,12 +34,7 @@ function ImpostorsListADM({
     <div className="m-4">
       <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
       <ul className="my-4 flex flex-row justify-between">
-        <button
-          className="border-gray-400 border-2 rounded-full px-4 text-gray-400 "
-          onClick={handleRemove}
-        >
-          <MdRemove />
-        </button>
+        <IconButton onClick={handleRemove} children={<MdRemove />} />
 
         <div className="flex flex-row gap-4">
           {Array.from({ length: impostors }, (_, index) => (
@@ -46,12 +42,7 @@ function ImpostorsListADM({
           ))}
         </div>
 
-        <button
-          className="border-gray-400 border-2 rounded-full px-4 text-gray-400"
-          onClick={handleAdd}
-        >
-          <MdAdd />
-        </button>
+        <IconButton onClick={handleAdd} children={<MdAdd />} />
       </ul>
     </div>
   );

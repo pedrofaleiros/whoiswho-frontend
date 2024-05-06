@@ -92,7 +92,7 @@ export function SignupPage() {
 
         <div className="mt-2 relative w-full">
           <div className="absolute inset-y-0 right-0 flex items-center px-2">
-            <input className="hidden js-password-toggle" id="toggle" />
+            <input className="hidden js-password-toggle" />
             {showPassword ? (
               <MdVisibility
                 className="h-6 w-6 text-gray-400 cursor-pointer"
@@ -122,7 +122,7 @@ export function SignupPage() {
 
         <div className="mt-2 relative w-full">
           <div className="absolute inset-y-0 right-0 flex items-center px-2">
-            <input className="hidden js-password-toggle" id="toggle" />
+            <input className="hidden js-password-toggle" />
             {showPassword ? (
               <MdVisibility
                 className="h-6 w-6 text-gray-400 cursor-pointer"
