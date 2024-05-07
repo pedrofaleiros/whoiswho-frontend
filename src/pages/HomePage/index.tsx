@@ -13,6 +13,7 @@ import {
   SecondaryButton,
   TextButton,
 } from "../../components/common/Buttons";
+import { OrDivider } from "../../components/common/Divider";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
@@ -137,11 +138,9 @@ export default function HomePage() {
           />
         )}
 
-        <div className="flex flex-row items-center gap-4 my-4">
-          <hr className="h-[0.5px]  w-24 bg-gray-500 mt-1 border-none" />
-          <p className="text-gray-500 text-sm font-medium">ou</p>
-          <hr className="h-[0.5px]  w-24 bg-gray-500 mt-1 border-none" />
-        </div>
+        <div className="h-2 w-full"></div>
+        <OrDivider />
+        <div className="h-2 w-full"></div>
 
         <SecondaryButton text="Criar uma sala" onClick={handleCreateRoom} />
       </div>

@@ -28,7 +28,7 @@ export function SecondaryButton({ text, ...props }: SecondaryButtonProps) {
   return (
     <button
       {...props}
-      className={`${defaultConfig} bg-inherit border-2 border-blue-500 text-blue-500  hover:bg-gray-900   ${
+      className={`${defaultConfig} bg-gray-950 border-2 border-blue-500 text-blue-500  hover:bg-gray-900   ${
         props.className ?? ""
       }`}
     >

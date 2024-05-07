@@ -1,5 +1,7 @@
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 import { GameModel } from "../../models/GameModel";
+import { SecondaryButton } from "../common/Buttons";
+import { TextTitle } from "../common/Texts";
 
 interface PlayingRoomProps {
   userId: string;
@@ -29,18 +31,7 @@ export function PlayingRoom({
   const player = game.professions[index];
 
   return (
-    <div className="text-gray-200">
-      {admId === userId && (
-        <div className="text-center w-full p-4">
-          <button
-            className="border-2 border-blue-500 w-full max-w-96 py-2 rounded-full text-blue-500 font-medium text-xl hover:bg-gray-900"
-            onClick={handleFinishGame}
-          >
-            Finalizar partida
-          </button>
-        </div>
-      )}
-
+    <div className="w-full flex flex-col items-center">
       {player.isImpostor && (
         <div
           key={player.playerId}
@@ -52,12 +43,14 @@ export function PlayingRoom({
       )}
 
       {!player.isImpostor && (
-        <div key={player.playerId} className="flex flex-col gap-2 m-4">
-          <p className="text-lg text-gray-400 font-semibold">Local</p>
+        <div key={player.playerId} className="p-2 w-full max-w-md">
+          <div className="h-4 w-full"></div>
+          <TextTitle text="Local" />
           <p className="border-2 border-blue-500 rounded-xl px-4 py-2 text-xl text-center font-medium ">
             {game.place}
           </p>
-          <p className="mt-4 text-lg text-gray-400 font-semibold">Profissão</p>
+          <div className="h-4 w-full"></div>
+          <TextTitle text="Profissão" />
           <p className="border-2 border-blue-500 rounded-xl px-4 py-2 text-xl text-center font-medium ">
             {player.profession}
           </p>

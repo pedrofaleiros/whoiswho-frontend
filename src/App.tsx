@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ProfilePage from "./pages/ProfilePage";
 import PlacesPage from "./pages/PlacesPage";
-import ComponentsPage from "./pages/Components";
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/room/:room" element={<RoomPage />} />
             <Route path="/places" element={<PlacesPage />} />
-            <Route path="/components" element={<ComponentsPage />} />
           </Routes>
         </Router>
       </AuthProvider>

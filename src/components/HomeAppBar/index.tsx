@@ -1,17 +1,14 @@
 import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
-import { ReactComponent as Impostor } from "../../icons/impostor.svg";
+import { AppLogo } from "../common/Logo";
 
 export function HomeAppBar() {
   const { username } = useAuth();
 
   return (
     <div className="w-full flex flex-row items-center justify-between p-3">
-      <div className="flex flex-row">
-        <Impostor className=" h-8 w-8" />
-        <h1 className="text-red-700 font-bold text-2xl">WhoIsWho</h1>
-      </div>
+      <AppLogo/>
 
       {username === null && (
         <Link

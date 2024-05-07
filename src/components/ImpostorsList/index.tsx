@@ -14,7 +14,7 @@ interface ImpostorsListADMProps {
 
 function ImpostorsList({ impostors }: ImpostorsListProps) {
   return (
-    <div className="m-4">
+    <div className="">
       <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
       <ul className="flex flex-row justify-center gap-4">
         {Array.from({ length: impostors }, (_, index) => (
@@ -31,7 +31,7 @@ function ImpostorsListADM({
   handleRemove,
 }: ImpostorsListADMProps) {
   return (
-    <div className="m-4">
+    <div className="">
       <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
       <ul className="my-4 flex flex-row justify-between">
         <IconButton onClick={handleRemove} children={<MdRemove />} />
