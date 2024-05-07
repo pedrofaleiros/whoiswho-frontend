@@ -46,9 +46,9 @@ export default function HomePage() {
             setLastRoom(data.roomCode);
           }
         } catch (error) {
-          setUserToken(null);
-          setLastRoom(null);
-          logout();
+          // setUserToken(null);
+          // setLastRoom(null);
+          // logout();
         }
       }
     };

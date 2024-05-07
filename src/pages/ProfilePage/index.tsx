@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
+import { MdArrowBack, MdLogout, MdPlace } from "react-icons/md";
+import { HomeAppBar } from "../../components/HomeAppBar";
 
 export default function ProfilePage() {
   const { username, logout } = useAuth();
@@ -12,25 +14,31 @@ export default function ProfilePage() {
   }, [username, navigate]);
 
   return (
-    <div className="flex flex-col items-start gap-2 text-lg font-medium">
+    <div className="flex flex-col items-start text-lg font-medium">
+      <HomeAppBar />
+
       <Link
-        className="text-blue-500 hover:text-blue-400 border-b-2 w-full border-gray-700 p-2"
-        to="/"
-      >
-        Voltar
-      </Link>
-      <Link
-        className="text-green-500 hover:text-green-400 border-b-2 w-full border-gray-700 p-2"
+        className="text-green-500 flex flex-row justify-between items-center hover:text-green-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-gray-900"
         to="/places"
       >
-        Ver Locais
+        <p>Ver Locais</p>
+        <MdPlace />
       </Link>
       <button
-        className="text-red-500 hover:text-red-400 border-b-2 w-full border-gray-700 p-2 text-start"
+        className=" text-red-500  flex flex-row justify-between items-center hover:text-red-400 border-b-[1px] w-full border-gray-700 px-6 py-3 text-start hover:bg-gray-900"
         onClick={logout}
       >
-        Sair da conta
+        <p>Sair da conta</p>
+        <MdLogout />
       </button>
+
+      <Link
+        className="text-blue-500 flex flex-row justify-center gap-2 items-center hover:text-blue-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-blue-950 bg-gray-900"
+        to="/"
+      >
+        <MdArrowBack />
+        <p>Voltar</p>
+      </Link>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function PlaceListItem({ place }: PlaceListItemProps) {
   return (
     <div
       key={place.id}
-      className=" border-2 border-gray-300 m-4 rounded-lg p-4 cursor-pointer "
+      className=" border-gray-500 border-[0.5px] shadow-md shadow-gray-800 m-4 rounded-lg p-4 cursor-pointer "
     >
       <div className="flex flex-row items-center justify-between">
         <h4 className="text-xl text-gray-300 font-semibold font-mono">

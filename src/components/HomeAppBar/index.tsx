@@ -7,8 +7,10 @@ export function HomeAppBar() {
   const { username } = useAuth();
 
   return (
-    <div className="w-full flex flex-row items-center justify-between p-3">
-      <AppLogo/>
+    <div className="w-full flex flex-row items-center justify-between p-3  shadow-sm shadow-gray-700">
+      <Link to="/">
+        <AppLogo />
+      </Link>
 
       {username === null && (
         <Link
