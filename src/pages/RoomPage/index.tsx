@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import socket from "../../socket";
 
@@ -15,23 +15,12 @@ import {
 import { PlayingRoom } from "../../components/PlayingRoom";
 import RoomAppBar from "../../components/RoomAppBar";
 
-import { BiLoaderCircle } from "react-icons/bi";
 import { parseCookies } from "nookies";
 import { PlayerModel } from "../../models/PlayerModel";
 import { GameModel, ProfessionModel } from "../../models/GameModel";
-import {
-  IconButton,
-  SecondaryButton,
-  TextButton,
-} from "../../components/common/Buttons";
+import { TextButton } from "../../components/common/Buttons";
 import { Divider } from "../../components/common/Divider";
-import {
-  MdBuild,
-  MdPlace,
-  MdPlayArrow,
-  MdSettings,
-  MdStop,
-} from "react-icons/md";
+import { MdPlayArrow } from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export function RoomPage() {

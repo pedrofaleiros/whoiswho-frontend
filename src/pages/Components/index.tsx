@@ -2,7 +2,6 @@ import {
   MdAdd,
   MdArrowBack,
   MdLogin,
-  MdPerson,
   MdRemove,
 } from "react-icons/md";
 import {

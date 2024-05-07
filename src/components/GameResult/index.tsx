@@ -1,8 +1,7 @@
-import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 import { GameModel } from "../../models/GameModel";
 import { ListTile } from "../common/ListTile";
 import { AppIcon } from "../common/Logo";
-import { AppBarTitle, TextTitle } from "../common/Texts";
+import {  TextTitle } from "../common/Texts";
 
 export default function GameResult({ place, professions }: GameModel) {
   return (

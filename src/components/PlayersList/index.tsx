@@ -23,7 +23,7 @@ export default function PlayersList({
           return (
             <li key={p.id}>
               <ListTile
-                title={p.username}
+                title={`${p.username}`}
                 trailing={isAdm ? "ADM" : ""}
                 borderColor={isAdm ? "border-blue-500" : ""}
                 textColor={isAdm ? "text-blue-100" : ""}

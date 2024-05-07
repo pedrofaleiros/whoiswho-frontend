@@ -1,6 +1,5 @@
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
 import { GameModel } from "../../models/GameModel";
-import { SecondaryButton } from "../common/Buttons";
 import { TextTitle } from "../common/Texts";
 
 interface PlayingRoomProps {
