@@ -9,5 +9,5 @@ export function OrDivider() {
 }
 
 export function Divider() {
-  return <hr className="w-full h-0.5 border-t-0 bg-gray-800" />;
+  return <hr className="w-full h-[1px] border-t-0 bg-gray-800" />;
 }

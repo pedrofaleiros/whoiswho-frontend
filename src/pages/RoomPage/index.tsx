@@ -20,8 +20,15 @@ import { PlayerModel } from "../../models/PlayerModel";
 import { GameModel, ProfessionModel } from "../../models/GameModel";
 import { TextButton } from "../../components/common/Buttons";
 import { Divider } from "../../components/common/Divider";
-import { MdPlayArrow } from "react-icons/md";
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdPlayArrow,
+} from "react-icons/md";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { CategoryModel } from "../../models/CategoryModel";
+import { getCategoriesService } from "../../services/api";
+import { TextTitle } from "../../components/common/Texts";
 
 export function RoomPage() {
   const { room } = useParams();
@@ -36,6 +43,9 @@ export function RoomPage() {
   const [admId, setAdmId] = useState<string>("");
 
   const [impostors, setImpostors] = useState<number>(0);
+  const [category, setCategory] = useState<string | null>(null);
+
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
 
   const [players, setPlayers] = useState<PlayerModel[]>([]);
 
@@ -44,6 +54,15 @@ export function RoomPage() {
   const [gameData, setGameData] = useState<GameModel | null>(null);
 
   useEffect(() => {
+    const getCategories = async () => {
+      if (token !== null) {
+        try {
+          const data = await getCategoriesService(token);
+          setCategories(data);
+        } catch (error) {}
+      }
+    };
+
     const cookies = parseCookies();
     const _token = cookies["@whoiswho.token"];
     const _userId = cookies["@whoiswho.userId"];
@@ -69,6 +88,12 @@ export function RoomPage() {
     socket.on(SocketConst.GAME_IMPOSTORS, (data) => {
       try {
         setImpostors(data);
+      } catch (error) {}
+    });
+
+    socket.on(SocketConst.GAME_CATEGORY, (data) => {
+      try {
+        setCategory(data);
       } catch (error) {}
     });
 
@@ -120,6 +145,8 @@ export function RoomPage() {
       navigate("/", { replace: true });
     });
 
+    getCategories();
+
     return () => {
       socket.removeAllListeners();
       socket.disconnect();
@@ -135,6 +162,18 @@ export function RoomPage() {
       token: token,
       roomCode: room,
       num: impostors + 1,
+    });
+  };
+
+  const setRoomCategory = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string | null
+  ) => {
+    event.preventDefault();
+    socket.emit(SocketConst.SET_CATEGORY, {
+      token: token,
+      roomCode: room,
+      categoryId: id,
     });
   };
 
@@ -213,7 +252,7 @@ export function RoomPage() {
       />
 
       {/* CONTENT */}
-      <div className="px-2 py-2 w-full max-w-md ">
+      <div className="px-4 py-4 w-full max-w-md ">
         {count !== "" && (
           <div className="fixed top-0 left-0 w-screen h-screen bg-opacity-50 bg-black text-center">
             <p className="bg-gray-300 mx-8 mt-48 rounded-lg py-8 px-2 text-gray-900 font-bold text-xl">
@@ -221,6 +260,20 @@ export function RoomPage() {
             </p>
           </div>
         )}
+
+        <GameCategory category={category} />
+
+        {admId === userId && (
+          <CategoriesADM
+            categories={categories}
+            category={category}
+            handle={setRoomCategory}
+          />
+        )}
+
+        <div className="my-4">
+          <Divider />
+        </div>
 
         <PlayersList players={players} admId={admId} userId={userId} />
 
@@ -249,6 +302,57 @@ export function RoomPage() {
           />
         )}
       </div>
+    </div>
+  );
+}
+
+interface CategoriesADMProps {
+  category: string | null;
+  categories: CategoryModel[];
+  handle: (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string | null
+  ) => void;
+}
+
+function CategoriesADM({ category, categories, handle }: CategoriesADMProps) {
+  return (
+    <div className="flex flex-col">
+      {categories.map((c) => {
+        return (
+          <button
+            onClick={(e) => handle(e, c.name === category ? null : c.id)}
+            key={c.id}
+            className="flex flex-row items-center gap-1 w-full max-w-md cursor-pointer border-none hover:bg-gray-800 rounded-lg py-2"
+          >
+            {c.name === category ? (
+              <MdCheckBox className="text-green-500 size-6 cursor-pointer" />
+            ) : (
+              <MdCheckBoxOutlineBlank className="size-6 cursor-pointer" />
+            )}
+
+            <p className="text-base">{c.name}</p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function GameCategory({ category }: { category: string | null }) {
+  return (
+    <div>
+      <TextTitle text="Categoria" />
+      {category !== null && (
+        <p className="w-full my-2 font-mono text-center text-2xl text-green-500 font-bold">
+          {category}
+        </p>
+      )}
+      {category === null && (
+        <p className="text-gray-500 text-sm font-medium w-full text-center my-2">
+          Nenhuma categoria selecionada
+        </p>
+      )}
     </div>
   );
 }

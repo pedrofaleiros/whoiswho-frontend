@@ -15,6 +15,8 @@ class SocketConstants {
   static GAME_STATUS: string = "gameStatus";
   static GAME_IMPOSTORS: string = "gameImpostors";
   static SET_IMPOSTORS: string = "setImpostors";
+  static SET_CATEGORY: string = "setCategory";
+  static GAME_CATEGORY: string = "gameCategory";
   static GAME_PLAYERS: string = "gamePlayers";
 
   static GAME_DATA: string = "gameData";
