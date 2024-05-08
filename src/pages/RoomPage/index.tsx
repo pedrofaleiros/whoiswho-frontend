@@ -323,15 +323,14 @@ function CategoriesADM({ category, categories, handle }: CategoriesADMProps) {
           <button
             onClick={(e) => handle(e, c.name === category ? null : c.id)}
             key={c.id}
-            className="flex flex-row items-center gap-1 w-full max-w-md cursor-pointer border-none hover:bg-gray-800 rounded-lg py-2"
+            className="flex flex-row justify-between items-center gap-1 w-full max-w-md cursor-pointer border-none hover:bg-gray-800 rounded-lg p-2"
           >
+            <p className="text-base">{c.name}</p>
             {c.name === category ? (
               <MdCheckBox className="text-green-500 size-6 cursor-pointer" />
             ) : (
               <MdCheckBoxOutlineBlank className="size-6 cursor-pointer" />
             )}
-
-            <p className="text-base">{c.name}</p>
           </button>
         );
       })}
@@ -349,7 +348,7 @@ function GameCategory({ category }: { category: string | null }) {
         </p>
       )}
       {category === null && (
-        <p className="text-gray-500 text-sm font-medium w-full text-center my-2">
+        <p className="text-gray-500 text-sm font-medium w-full text-center my-[14px]">
           Nenhuma categoria selecionada
         </p>
       )}
