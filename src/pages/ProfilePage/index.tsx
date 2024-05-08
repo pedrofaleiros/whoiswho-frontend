@@ -33,13 +33,13 @@ export default function ProfilePage() {
         <MdLogout />
       </button>
 
-      {/* <Link
-        className="text-blue-500 flex flex-row justify-center gap-2 items-center hover:text-blue-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-blue-950 bg-gray-900"
+      <Link
+        className="text-blue-500 flex flex-row justify-start gap-2 items-center hover:text-blue-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-gray-900"
         to="/"
       >
         <MdArrowBack />
         <p>Voltar</p>
-      </Link> */}
+      </Link>
     </div>
   );
 }
