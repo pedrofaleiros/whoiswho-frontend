@@ -40,15 +40,15 @@ export function CategoriesADM({
 
 export function GameCategory({ category }: { category: string | null }) {
   return (
-    <div>
+    <div className="flex flex-row justify-between  items-center bg-gray-900 rounded-lg px-2 mb-2">
       <TextTitle text="Categoria" />
       {category !== null && (
-        <p className="w-full my-2 font-mono text-center text-2xl text-green-500 font-bold">
+        <p className="my-2 font-sans text-end text-xl text-green-500 font-bold">
           {category}
         </p>
       )}
       {category === null && (
-        <p className="text-gray-500 text-sm font-medium w-full text-center my-[14px]">
+        <p className="text-gray-500 text-sm font-medium text-end my-[12px]">
           Nenhuma categoria selecionada
         </p>
       )}
