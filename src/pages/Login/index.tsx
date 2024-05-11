@@ -5,7 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { loginService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import axios from "axios";
-import { BiLoaderCircle } from "react-icons/bi";
+import { FiLoader } from "react-icons/fi";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -62,7 +62,8 @@ export function LoginPage() {
   };
 
   useEffect(() => {
-    if (username !== null) navigate(`/`, { replace: true });
+    if (!(username === null || username === ""))
+      navigate(`/`, { replace: true });
   }, [username, navigate]);
 
   return (
@@ -117,11 +118,7 @@ export function LoginPage() {
           className="bg-blue-700 rounded-md py-2 text-base font-medium hover:bg-blue-500 mt-2 flex justify-center"
           type="submit"
         >
-          {loading ? (
-            <BiLoaderCircle className="animate-spin w-6 h-6" />
-          ) : (
-            "Entrar"
-          )}
+          {loading ? <FiLoader className="animate-spin size-6" /> : "Entrar"}
         </button>
 
         {error !== null && (

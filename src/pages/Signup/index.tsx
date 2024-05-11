@@ -4,7 +4,7 @@ import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
 import { signupService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FiLoader } from "react-icons/fi";
 import axios from "axios";
 
 export function SignupPage() {
@@ -154,11 +154,7 @@ export function SignupPage() {
           className="my-4 w-full bg-indigo-600 items-center flex justify-center hover:bg-indigo-500  text-white font-medium py-3 rounded-lg focus:outline-none focus:shadow-outline "
           type="submit"
         >
-          {loading ? (
-            <AiOutlineLoading3Quarters className="animate-spin w-6 h-6" />
-          ) : (
-            "Cadastrar"
-          )}
+          {loading ? <FiLoader className="animate-spin size-6" /> : "Cadastrar"}
         </button>
 
         {error !== null && error !== "" && (

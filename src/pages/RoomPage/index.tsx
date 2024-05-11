@@ -8,10 +8,7 @@ import { toast } from "react-toastify";
 
 import PlayersList from "../../components/PlayersList";
 import GameResult from "../../components/GameResult";
-import {
-  ImpostorsList,
-  ImpostorsListADM,
-} from "../../components/ImpostorsList";
+import { ImpostorsList } from "../../components/ImpostorsList";
 import { PlayingRoom } from "../../components/PlayingRoom";
 import RoomAppBar from "../../components/RoomAppBar";
 
@@ -20,10 +17,8 @@ import { PlayerModel } from "../../models/PlayerModel";
 import { GameModel, ProfessionModel } from "../../models/GameModel";
 import { TextButton } from "../../components/common/Buttons";
 import { Divider } from "../../components/common/Divider";
-import {
-  MdPlayArrow,
-} from "react-icons/md";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdPlayArrow } from "react-icons/md";
+import { FiLoader } from "react-icons/fi";
 import { CategoryModel } from "../../models/CategoryModel";
 import { getCategoriesService } from "../../services/api";
 import { CategoriesADM, GameCategory } from "../../components/GameCategory";
@@ -151,15 +146,13 @@ export function RoomPage() {
     };
   }, [room, token, userId, navigate]);
 
-  const addImpostor = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSetImpostors = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    if (impostors >= 3) return;
 
     socket.emit(SocketConst.SET_IMPOSTORS, {
       token: token,
       roomCode: room,
-      num: impostors + 1,
+      num: impostors === 1 ? 2 : impostors === 2 ? 3 : 1,
     });
   };
 
@@ -172,18 +165,6 @@ export function RoomPage() {
       token: token,
       roomCode: room,
       categoryId: id,
-    });
-  };
-
-  const removeImpostor = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
-    if (impostors <= 1) return;
-
-    socket.emit(SocketConst.SET_IMPOSTORS, {
-      token: token,
-      roomCode: room,
-      num: impostors - 1,
     });
   };
 
@@ -206,7 +187,7 @@ export function RoomPage() {
     return (
       <div className="flex flex-col items-center w-full">
         <RoomAppBar handleClick={handleBackClick} roomCode={room ?? ""} />
-        <AiOutlineLoading3Quarters className="animate-spin h-10 w-10 mt-16" />
+        <FiLoader className="animate-spin size-6 mt-16" />
       </div>
     );
   }
@@ -269,29 +250,19 @@ export function RoomPage() {
           />
         )}
 
-        <div className="my-4">
-          <Divider />
-        </div>
+        <Divider />
+
+        <ImpostorsList
+          impostors={impostors}
+          isAdm={admId === userId}
+          handle={handleSetImpostors}
+        />
+
+        <Divider />
 
         <PlayersList players={players} admId={admId} userId={userId} />
 
-        <div className="my-4">
-          <Divider />
-        </div>
-
-        {admId === userId && (
-          <ImpostorsListADM
-            impostors={impostors}
-            handleAdd={addImpostor}
-            handleRemove={removeImpostor}
-          />
-        )}
-
-        {admId !== userId && <ImpostorsList impostors={impostors} />}
-
-        <div className="my-4">
-          <Divider />
-        </div>
+        <Divider />
 
         {gameStatus === "finished" && gameData !== null && (
           <GameResult

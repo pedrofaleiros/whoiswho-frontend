@@ -18,7 +18,7 @@ import { OrDivider } from "../../components/common/Divider";
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
 
-  const { login, logout } = useAuth();
+  const { login, logout, setIsLoading } = useAuth();
 
   const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ export default function HomePage() {
   useEffect(() => {
     const session = async () => {
       const _token = parseCookies()["@whoiswho.token"];
+      setIsLoading(true);
       if (_token) {
         try {
           const response = await sessionService(_token);
@@ -51,6 +52,7 @@ export default function HomePage() {
           // logout();
         }
       }
+      setIsLoading(false);
     };
 
     session();

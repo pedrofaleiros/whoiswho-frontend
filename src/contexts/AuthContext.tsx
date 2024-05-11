@@ -19,6 +19,8 @@ interface AuthContextType {
   token: string | null;
   login: (p: LoginParams) => void;
   logout: () => void;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,6 +32,7 @@ interface AuthProviderProps {
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const login = useCallback((p: LoginParams) => {
     setCookie(null, "@whoiswho.token", p.token, {
@@ -54,7 +57,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ username, token, login, logout }}>
+    <AuthContext.Provider
+      value={{ username, token, login, logout, isLoading, setIsLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );
