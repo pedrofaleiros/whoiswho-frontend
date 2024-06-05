@@ -2,10 +2,9 @@ import axios from "axios";
 import { PlaceModel } from "../models/PlaceModel";
 import { CategoryModel } from "../models/CategoryModel";
 
-// export const BASE_URL: string = "http://192.168.0.129:8080";
-// export const BASE_URL: string = "https://wiwback-jk7g6zx7pq-rj.a.run.app";
-export const BASE_URL: string = "https://backend-jk7g6zx7pq-rj.a.run.app";
+// export const BASE_URL: string = "https://backend-jk7g6zx7pq-rj.a.run.app";
 // export const BASE_URL: string = "http://172.30.4.48:8080";
+export const BASE_URL: string = "http://ec2-18-231-107-238.sa-east-1.compute.amazonaws.com:8080";
 
 export const createRoomService = async (token: string) => {
   try {
