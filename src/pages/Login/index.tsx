@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { loginService } from "../../services/auth";
+// import { loginService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import axios from "axios";
 import { FiLoader } from "react-icons/fi";
@@ -10,7 +10,7 @@ import { FiLoader } from "react-icons/fi";
 export function LoginPage() {
   const navigate = useNavigate();
 
-  const { username, login } = useAuth();
+  // const { username, login } = useAuth();
 
   const [inputUsername, setInputUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -34,23 +34,23 @@ export function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await loginService({
-        username: inputUsername.trim(),
-        password: password,
-      });
+      // const res = await loginService({
+      //   username: inputUsername.trim(),
+      //   password: password,
+      // });
 
-      const { token, username, id } = res;
+      // const { token, username, id } = res;
 
-      if (token && username && id) {
-        login({
-          token: token,
-          username: username,
-          userId: id,
-        });
-        navigate(`/`, { replace: true });
-      }
+      // if (token && username && id) {
+      //   login({
+      //     token: token,
+      //     username: username,
+      //     userId: id,
+      //   });
+      //   navigate(`/`, { replace: true });
+      // }
 
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       setLoading(false);
       if (axios.isAxiosError(error)) {
@@ -61,10 +61,10 @@ export function LoginPage() {
     }
   };
 
-  useEffect(() => {
-    if (!(username === null || username === ""))
-      navigate(`/`, { replace: true });
-  }, [username, navigate]);
+  // useEffect(() => {
+  //   if (!(username === null || username === ""))
+  //     navigate(`/`, { replace: true });
+  // }, [username, navigate]);
 
   return (
     <div className="w-full flex flex-col items-center">

@@ -5,7 +5,6 @@ import {
   getPlacesByCategoryService,
   getPlacesService,
 } from "../../services/api";
-import { useAuth } from "../../contexts/AuthContext";
 import PlaceListItem from "../../components/PlaceListTile";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -25,7 +24,7 @@ export default function PlacesPage() {
 
   const [selected, setSelected] = useState<string | null>(null);
 
-  const { token } = useAuth();
+  // const { token } = useAuth();
 
   const [stateToken, setStateToken] = useState<string>("");
 
@@ -37,15 +36,9 @@ export default function PlacesPage() {
 
   useEffect(() => {
     const getPlaces = async () => {
-      if (token === null) {
-        navigate("/", { replace: true });
-        return;
-      }
-
-      setStateToken(token);
       setisLoading(true);
       try {
-        const data = await getPlacesService(token, null);
+        const data = await getPlacesService(null);
         setPlaces(data);
       } catch (error) {
       } finally {
@@ -54,12 +47,8 @@ export default function PlacesPage() {
     };
 
     const getCategories = async () => {
-      if (token === null) {
-        return;
-      }
-
       try {
-        const data = await getCategoriesService(token);
+        const data = await getCategoriesService();
         setCategories(data);
       } catch (error) {}
     };
@@ -67,7 +56,7 @@ export default function PlacesPage() {
     getPlaces();
 
     getCategories();
-  }, [token, navigate]);
+  }, [navigate]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +67,7 @@ export default function PlacesPage() {
       setSelected(null);
 
       try {
-        const data = await getPlacesService(stateToken, search);
+        const data = await getPlacesService(search);
         setPlaces(data);
       } catch (error) {
       } finally {
@@ -95,7 +84,7 @@ export default function PlacesPage() {
       setisLoading(true);
 
       try {
-        const data = await getPlacesService(stateToken, null);
+        const data = await getPlacesService(null);
         setPlaces(data);
       } catch (error) {
       } finally {
@@ -119,12 +108,12 @@ export default function PlacesPage() {
   const handleClear = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if(search === '' && selected === null) return;
+    if (search === "" && selected === null) return;
 
     setisLoading(true);
 
     try {
-      const data = await getPlacesService(stateToken, null);
+      const data = await getPlacesService(null);
       setPlaces(data);
       setSelected(null);
       setSearch("");

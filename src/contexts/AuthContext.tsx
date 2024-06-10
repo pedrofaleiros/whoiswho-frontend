@@ -1,4 +1,4 @@
-import { destroyCookie, setCookie } from "nookies";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
 import {
   createContext,
   FC,
@@ -8,17 +8,17 @@ import {
   useState,
 } from "react";
 
-interface LoginParams {
-  username: string;
-  token: string;
+interface UserParams {
   userId: string;
+  username: string;
 }
 
 interface AuthContextType {
+  userId: string | null;
   username: string | null;
-  token: string | null;
-  login: (p: LoginParams) => void;
-  logout: () => void;
+  session: () => UserParams | null;
+  createUser: (p: UserParams) => void;
+  updateUsername: (newUsername: string) => void;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
 }
@@ -28,37 +28,65 @@ const AuthContext = createContext<AuthContextType | null>(null);
 interface AuthProviderProps {
   children: ReactNode;
 }
-
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-  const [username, setUsername] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const login = useCallback((p: LoginParams) => {
-    setCookie(null, "@whoiswho.token", p.token, {
-      path: "/",
-      maxAge: 1 * 24 * 60 * 60,
-    });
+  const [username, setUsername] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-    setCookie(null, "@whoiswho.userId", p.userId, {
-      path: "/",
-      maxAge: 1 * 24 * 60 * 60,
-    });
+  const session = useCallback(() => {
+    const cookies = parseCookies();
+    const _username = cookies["@whoiswho.username"];
+    const _userId = cookies["@whoiswho.userId"];
 
-    setToken(p.token);
-    setUsername(p.username);
+    if (_username === undefined || _userId === undefined) {
+      return null;
+    }
+
+    setUserId(_userId);
+    setUsername(_username);
+
+    return {
+      userId: _userId,
+      username: _username,
+    };
   }, []);
 
-  const logout = useCallback(() => {
-    destroyCookie(null, "@whoiswho.token");
-    destroyCookie(null, "@whoiswho.userId");
-    setToken(null);
-    setUsername(null);
+  const createUser = useCallback((p: UserParams) => {
+    setCookie(null, "@whoiswho.userId", p.userId, {
+      maxAge: 1 * 24 * 60 * 60,
+      path: "/",
+    });
+
+    setCookie(null, "@whoiswho.username", p.username, {
+      maxAge: 1 * 24 * 60 * 60,
+      path: "/",
+    });
+
+    setUsername(p.username);
+    setUserId(p.userId);
+  }, []);
+
+  const updateUsername = useCallback((newUsername: string) => {
+    setCookie(null, "@whoiswho.username", newUsername, {
+      maxAge: 1 * 24 * 60 * 60,
+      path: "/",
+    });
+
+    setUsername(newUsername);
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ username, token, login, logout, isLoading, setIsLoading }}
+      value={{
+        userId,
+        username,
+        session,
+        createUser,
+        updateUsername,
+        isLoading,
+        setIsLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MdVisibility, MdVisibilityOff, MdWarningAmber } from "react-icons/md";
 import { useAuth } from "../../contexts/AuthContext";
-import { signupService } from "../../services/auth";
+// import { signupService } from "../../services/auth";
 import { AuthAppBar } from "../../components/AuthAppBar";
 import { FiLoader } from "react-icons/fi";
 import axios from "axios";
@@ -10,7 +10,7 @@ import axios from "axios";
 export function SignupPage() {
   const navigate = useNavigate();
 
-  const { username, login } = useAuth();
+  // const { username, login } = useAuth();
 
   const [inputUsername, setInputUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -39,22 +39,22 @@ export function SignupPage() {
     setLoading(true);
 
     try {
-      const res = await signupService({
-        username: inputUsername.trim(),
-        password: password,
-      });
+      // const res = await signupService({
+      //   username: inputUsername.trim(),
+      //   password: password,
+      // });
 
-      const { token, username, id } = res;
+      // const { token, username, id } = res;
 
-      if (token && username && id) {
-        login({
-          token: token,
-          userId: id,
-          username: username,
-        });
-        setLoading(false);
-        navigate(`/`, { replace: true });
-      }
+      // if (token && username && id) {
+      //   login({
+      //     token: token,
+      //     userId: id,
+      //     username: username,
+      //   });
+      //   setLoading(false);
+      //   navigate(`/`, { replace: true });
+      // }
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -66,9 +66,9 @@ export function SignupPage() {
     }
   };
 
-  useEffect(() => {
-    if (username !== null) navigate(`/`, { replace: true });
-  }, [username, navigate]);
+  // useEffect(() => {
+  //   if (username !== null) navigate(`/`, { replace: true });
+  // }, [username, navigate]);
 
   return (
     <div className="w-full justify-center flex flex-col text-center items-center">

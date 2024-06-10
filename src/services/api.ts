@@ -3,51 +3,34 @@ import { PlaceModel } from "../models/PlaceModel";
 import { CategoryModel } from "../models/CategoryModel";
 
 // export const BASE_URL: string = "https://backend-jk7g6zx7pq-rj.a.run.app";
-// export const BASE_URL: string = "http://172.30.4.48:8080";
-export const BASE_URL: string = "http://ec2-18-231-107-238.sa-east-1.compute.amazonaws.com:8080";
+// export const BASE_URL: string = "http://ec2-18-231-107-238.sa-east-1.compute.amazonaws.com:8080";
+export const BASE_URL: string = "http://172.30.4.48:8080";
 
-export const createRoomService = async (token: string) => {
+export const createRoomService = async (userId: string) => {
   try {
-    const res = await axios.post(
-      `${BASE_URL}/room`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
+    const res = await axios.post(`${BASE_URL}/room/${userId}`);
     return res.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getUserRoomService = async (token: string) => {
+{ }
+export const getUserRoomService = async (userId: string) => {
   try {
-    const res = await axios.get(
-      `${BASE_URL}/room/last`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
+    const res = await axios.get(`${BASE_URL}/room/last/${userId}`);
     return res.data;
   } catch (error) {
-    throw error;
+    // throw error;
+    console.log(error)
   }
 };
 
-export const getPlacesService = async (token: string, text: string | null): Promise<PlaceModel[]> => {
+export const getPlacesService = async (text: string | null): Promise<PlaceModel[]> => {
   try {
     const res = await axios.get(
-      `${BASE_URL}/place${text === null ? "" : `?name=${text}`}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `${BASE_URL}/place${text === null ? "" : `?name=${text}`}`
     )
-
     return res.data
   } catch (error) {
     throw error
@@ -57,23 +40,17 @@ export const getPlacesService = async (token: string, text: string | null): Prom
 export const getPlacesByCategoryService = async (token: string, categoryId: string): Promise<PlaceModel[]> => {
   try {
     const res = await axios.get(
-      `${BASE_URL}/place/category/${categoryId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      `${BASE_URL}/place/category/${categoryId}`
     )
-
     return res.data
   } catch (error) {
     throw error
   }
 }
 
-export const getCategoriesService = async (token: string): Promise<CategoryModel[]> => {
+export const getCategoriesService = async (): Promise<CategoryModel[]> => {
   try {
-    const res = await axios.get(
-      `${BASE_URL}/category`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    )
-
+    const res = await axios.get(`${BASE_URL}/category`)
     return res.data
   } catch (error) {
     throw error

@@ -4,8 +4,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { HomeAppBar } from "../../components/HomeAppBar";
 
-import { parseCookies } from "nookies";
-import { sessionService } from "../../services/auth";
 import { createRoomService, getUserRoomService } from "../../services/api";
 import { MdLogin } from "react-icons/md";
 import {
@@ -14,60 +12,63 @@ import {
   TextButton,
 } from "../../components/common/Buttons";
 import { OrDivider } from "../../components/common/Divider";
+import { createUserService, sessionUserService } from "../../services/auth";
+import { parseCookies } from "nookies";
 
 export default function HomePage() {
   const [roomCode, setRoomCode] = useState<string>("");
+  const [lastRoom, setLastRoom] = useState<string | null>(null);
 
-  const { login, logout, setIsLoading } = useAuth();
+  const { session, createUser, userId, setIsLoading } = useAuth();
 
   const navigate = useNavigate();
 
-  const [userToken, setUserToken] = useState<string | null>(null);
-  const [lastRoom, setLastRoom] = useState<string | null>(null);
-
   useEffect(() => {
-    const session = async () => {
-      const _token = parseCookies()["@whoiswho.token"];
-      setIsLoading(true);
-      if (_token) {
-        try {
-          const response = await sessionService(_token);
-          const { token, username, id } = response;
+    const handleCreateUser = async () => {
+      const data = await createUserService();
+      if (data.id && data.username) {
+        createUser({
+          userId: data.id,
+          username: data.username,
+        });
+      }
+    };
 
-          login({
-            token: token,
-            userId: id,
-            username: username,
-          });
-
-          setUserToken(token);
-
-          const data = await getUserRoomService(token);
-          if (typeof data.roomCode === "string") {
-            setLastRoom(data.roomCode);
-          }
-        } catch (error) {
-          // setUserToken(null);
-          // setLastRoom(null);
-          // logout();
+    const handleFindLastRoom = async () => {
+      const id = parseCookies()["@whoiswho.userId"];
+      if (id) {
+        const data = await getUserRoomService(id);
+        if (typeof data.roomCode === "string") {
+          setLastRoom(data.roomCode);
         }
       }
+    };
+
+    const handleSession = async () => {
+      setIsLoading(true);
+      try {
+        const user = session();
+        if (user === null) {
+          await handleCreateUser();
+        } else {
+          const data = await sessionUserService(user.userId);
+          if (data === null || !data.id || !data.username) {
+            await handleCreateUser();
+          }
+        }
+      } catch (_) {}
       setIsLoading(false);
     };
 
-    session();
-  }, [login, logout]);
+    handleSession();
+    handleFindLastRoom();
+  }, [session, createRoomService, setIsLoading]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (roomCode.length !== 4) {
       toast.warning("Código da sala inválido");
-      return;
-    }
-
-    if (!userToken) {
-      toast.warning("Faça login para entrar em uma sala");
       return;
     }
 
@@ -84,11 +85,6 @@ export default function HomePage() {
       return;
     }
 
-    if (!userToken) {
-      toast.warning("Faça login para entrar em uma sala");
-      return;
-    }
-
     navigate(`/room/${lastRoom}`);
   };
 
@@ -97,14 +93,12 @@ export default function HomePage() {
   ) => {
     event.preventDefault();
 
-    if (!userToken) {
-      toast.warning("Faça login para criar uma sala");
+    if (userId == null) {
       return;
     }
     try {
-      const response = await createRoomService(userToken);
+      const response = await createRoomService(userId);
       const roomCode = response.roomCode;
-
       navigate(`/room/${roomCode}`);
     } catch (error) {}
   };
@@ -114,7 +108,6 @@ export default function HomePage() {
       <HomeAppBar />
 
       <div className="w-2/3 max-w-xs flex flex-col items-center gap-2">
-        {/*  */}
         <form
           className="w-full flex flex-col mt-8 gap-2"
           onSubmit={handleSubmit}
@@ -132,7 +125,7 @@ export default function HomePage() {
           <PrimaryButton text="Entrar" type="submit" />
         </form>
 
-        {userToken && lastRoom && (
+        {lastRoom && (
           <TextButton
             text={`Sala ${lastRoom}`}
             children={<MdLogin />}

@@ -1,21 +1,72 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { useEffect } from "react";
-import { MdArrowBack, MdLogout, MdPlace } from "react-icons/md";
+import { useEffect, useState } from "react";
+import {
+  MdArrowBack,
+  MdLogout,
+  MdPerson,
+  MdPersonOutline,
+  MdPlace,
+  MdSave,
+} from "react-icons/md";
 import { HomeAppBar } from "../../components/HomeAppBar";
+import { PrimaryButton } from "../../components/common/Buttons";
+import { updateUsernameService } from "../../services/auth";
+import { Axios, isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export default function ProfilePage() {
-  const { username, logout } = useAuth();
-
   const navigate = useNavigate();
 
+  const { username, userId, updateUsername } = useAuth();
+
+  const [inputUsername, setInputUsername] = useState<string>("");
   useEffect(() => {
-    if (username === null) navigate("/", { replace: true });
-  }, [username, navigate]);
+    if (username !== null && userId !== null) {
+      setInputUsername(username);
+    } else {
+      navigate(`/`, { replace: true });
+    }
+  }, [username]);
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (userId !== null) {
+      try {
+        const data = await updateUsernameService(userId, inputUsername);
+        if (data.username) {
+          updateUsername(data.username);
+          toast.success("Nome de usuário atualizado com sucesso");
+        }
+      } catch (error) {
+        if (isAxiosError(error)) {
+          toast.warning(error.response?.data.message);
+        }
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col items-start text-lg font-medium">
       <HomeAppBar />
+
+      <form className="flex items-center w-full max-w-lg px-4 mt-4 mb-4 mx-auto">
+        <div className="relative w-full">
+          <input
+            className="w-full text-base rounded-lg block ps-2.5 p-2.5 bg-gray-900 border-gray-500 border-2 outline-none focus:border-white"
+            placeholder="Nome de usuário"
+            type="text"
+            value={inputUsername}
+            onChange={(e) => setInputUsername(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border-none hover:bg-blue-800"
+        >
+          Salvar
+        </button>
+      </form>
 
       <Link
         className="text-green-500 flex flex-row justify-between items-center hover:text-green-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-gray-900"
@@ -24,21 +75,13 @@ export default function ProfilePage() {
         <p>Ver Locais</p>
         <MdPlace />
       </Link>
-      
-      <button
-        className=" text-red-500  flex flex-row justify-between items-center hover:text-red-400 border-b-[1px] w-full border-gray-700 px-6 py-3 text-start hover:bg-gray-900"
-        onClick={logout}
-      >
-        <p>Sair da conta</p>
-        <MdLogout />
-      </button>
 
       <Link
-        className="text-blue-500 flex flex-row justify-start gap-2 items-center hover:text-blue-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-gray-900"
+        className="text-blue-500 flex flex-row justify-between gap-2 items-center hover:text-blue-400 border-b-[1px] w-full border-gray-700 px-6 py-3 hover:bg-gray-900"
         to="/"
       >
-        <MdArrowBack />
         <p>Voltar</p>
+        {/* <MdArrowBack /> */}
       </Link>
     </div>
   );

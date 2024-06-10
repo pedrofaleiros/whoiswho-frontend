@@ -25,7 +25,6 @@ import { CategoriesADM, GameCategory } from "../../components/GameCategory";
 
 export function RoomPage() {
   const { room } = useParams();
-  const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,20 +47,18 @@ export function RoomPage() {
 
   useEffect(() => {
     const getCategories = async () => {
-      if (token !== null) {
+      if (userId !== null) {
         try {
-          const data = await getCategoriesService(token);
+          const data = await getCategoriesService();
           setCategories(data);
         } catch (error) {}
       }
     };
 
     const cookies = parseCookies();
-    const _token = cookies["@whoiswho.token"];
     const _userId = cookies["@whoiswho.userId"];
 
-    if (_token && _userId && room !== undefined) {
-      setToken(_token);
+    if (_userId && room !== undefined) {
       setUserId(_userId);
     } else {
       toast.warning("Faça login para entrar na sala");
@@ -74,7 +71,7 @@ export function RoomPage() {
     socket.on("connect", () => {
       socket.emit("joinRoom", {
         roomCode: room,
-        token: token,
+        userId: userId,
       });
     });
 
@@ -108,7 +105,7 @@ export function RoomPage() {
 
     socket.on(SocketConst.ERROR, (data) => {
       if (data) {
-        toast.warning(data);
+        toast.warning(data, { position: "bottom-right" });
       }
     });
 
@@ -124,7 +121,7 @@ export function RoomPage() {
 
     socket.on(SocketConst.WARNING, (data) => {
       try {
-        toast.warning(data);
+        toast.warning(data, { position: "bottom-right" });
       } catch (error) {}
     });
 
@@ -144,13 +141,13 @@ export function RoomPage() {
       socket.removeAllListeners();
       socket.disconnect();
     };
-  }, [room, token, userId, navigate]);
+  }, [room, userId, navigate]);
 
   const handleSetImpostors = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     socket.emit(SocketConst.SET_IMPOSTORS, {
-      token: token,
+      userId: userId,
       roomCode: room,
       num: impostors === 1 ? 2 : impostors === 2 ? 3 : 1,
     });
@@ -162,7 +159,7 @@ export function RoomPage() {
   ) => {
     event.preventDefault();
     socket.emit(SocketConst.SET_CATEGORY, {
-      token: token,
+      userId: userId,
       roomCode: room,
       categoryId: id,
     });
@@ -170,12 +167,12 @@ export function RoomPage() {
 
   const handleStartGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    socket.emit(SocketConst.START_GAME, { token: token });
+    socket.emit(SocketConst.START_GAME, { userId: userId });
   };
 
   const handleFinishGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    socket.emit(SocketConst.FINISH_GAME, { token: token });
+    socket.emit(SocketConst.FINISH_GAME, { userId: userId });
   };
 
   const handleBackClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -230,11 +227,10 @@ export function RoomPage() {
         }
       />
 
-      {/* CONTENT */}
       <div className="px-4 py-4 w-full max-w-md ">
         {count !== "" && (
-          <div className="fixed top-0 left-0 w-screen h-screen bg-opacity-50 bg-black text-center">
-            <p className="bg-gray-300 mx-8 mt-48 rounded-lg py-8 px-2 text-gray-900 font-bold text-xl">
+          <div className="fixed top-0 left-0 w-screen h-screen bg-opacity-75 bg-black text-center">
+            <p className="bg-gray-800 mx-8 mt-48 rounded-3xl py-8 px-2 text-green-500 font-bold font-mono text-lg">
               {count}
             </p>
           </div>
@@ -250,7 +246,7 @@ export function RoomPage() {
           />
         )}
 
-        <Divider />
+        {admId === userId && <Divider />}
 
         <ImpostorsList
           impostors={impostors}
