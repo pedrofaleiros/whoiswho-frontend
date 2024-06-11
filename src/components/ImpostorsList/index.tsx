@@ -1,4 +1,4 @@
-import { ReactComponent as Impostor } from "../../icons/impostor.svg";
+import { AppIconSM } from "../common/Logo";
 import { TextTitle } from "../common/Texts";
 
 interface ImpostorsListProps {
@@ -29,7 +29,7 @@ function ImpostorsList({
       <ul className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
           {Array.from({ length: impostors }, (_, index) => (
-            <Impostor className="size-7" key={index} />
+            <AppIconSM />
           ))}
         </div>
       </ul>

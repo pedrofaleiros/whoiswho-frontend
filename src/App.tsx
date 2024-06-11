@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import HomePage from "./pages/HomePage";
-// import { LoginPage } from "./pages/Login";
-// import { SignupPage } from "./pages/Signup";
 import { RoomPage } from "./pages/RoomPage";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -19,8 +17,6 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} /> */}
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/room/:room" element={<RoomPage />} />
             <Route path="/places" element={<PlacesPage />} />

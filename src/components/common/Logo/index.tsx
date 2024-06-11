@@ -10,5 +10,9 @@ export function AppLogo() {
 }
 
 export function AppIcon() {
-  return <Impostor className=" h-10 w-10 " />;
+  return <Impostor className="size-10" />;
+}
+
+export function AppIconSM() {
+  return <Impostor className="size-8" />;
 }

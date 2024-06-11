@@ -1,6 +1,6 @@
 import { GameModel } from "../../models/GameModel";
 import { ListTile } from "../common/ListTile";
-import { AppIcon } from "../common/Logo";
+import { AppIcon, AppIconSM } from "../common/Logo";
 import {  TextTitle } from "../common/Texts";
 
 export default function GameResult({ place, professions }: GameModel) {
@@ -21,8 +21,8 @@ export default function GameResult({ place, professions }: GameModel) {
             <li key={p.playerId}>
               <ListTile
                 title={p.username}
-                trailing={isImp ? <AppIcon /> : p.profession}
-                borderColor={isImp ? "border-red-600" : "border-blue-500"}
+                trailing={isImp ? <AppIconSM /> : p.profession}
+                borderColor={isImp ? "border-red-900" : "border-blue-900"}
                 textColor={isImp ? "text-red-100" : "text-blue-100"}
               />
             </li>
