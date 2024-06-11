@@ -25,7 +25,7 @@ export default function PlayersList({
               <ListTile
                 title={`${p.username} ${p.id === userId ? "(Você)" : ""}`}
                 trailing={isAdm ? "ADM" : ""}
-                borderColor={isAdm ? "border-blue-500" : ""}
+                borderColor={isAdm ? "border-blue-500" : "border-gray-600"}
                 textColor={isAdm ? "text-blue-100" : ""}
               />
             </li>
