@@ -45,8 +45,8 @@ export default function HomePage() {
     };
 
     const handleSession = async () => {
-      setIsLoading(true);
       try {
+        setIsLoading(true);
         const user = session();
         if (user === null) {
           await handleCreateUser();
@@ -56,13 +56,15 @@ export default function HomePage() {
             await handleCreateUser();
           }
         }
-      } catch (_) {}
-      setIsLoading(false);
+      } catch (_) {
+      } finally {
+        setIsLoading(false);
+        handleFindLastRoom();
+      }
     };
 
     handleSession();
-    handleFindLastRoom();
-  }, [session, createRoomService, setIsLoading]);
+  }, [session, setIsLoading, createUser]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

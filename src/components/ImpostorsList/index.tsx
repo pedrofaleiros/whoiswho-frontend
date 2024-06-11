@@ -1,30 +1,10 @@
 import { ReactComponent as Impostor } from "../../icons/impostor.svg";
-import { MdAdd, MdRemove } from "react-icons/md";
-import { IconButton } from "../common/Buttons";
 import { TextTitle } from "../common/Texts";
 
-// interface ImpostorsListProps {
-//   impostors: number;
-// }
-
-// function ImpostorsList({ impostors }: ImpostorsListProps) {
-//   return (
-//     <div className="">
-//       <h6 className="text-lg text-gray-400 font-semibold">Impostores</h6>
-//       <ul className="flex flex-row justify-center gap-4">
-//         {Array.from({ length: impostors }, (_, index) => (
-//           <Impostor className="h-12 w-12" key={index} />
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
 interface ImpostorsListProps {
   impostors: number;
   isAdm?: boolean;
   handle: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  // handleAdd: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  // handleRemove: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 function ImpostorsList({

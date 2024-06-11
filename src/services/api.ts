@@ -15,14 +15,12 @@ export const createRoomService = async (userId: string) => {
   }
 };
 
-{ }
 export const getUserRoomService = async (userId: string) => {
   try {
     const res = await axios.get(`${BASE_URL}/room/last/${userId}`);
     return res.data;
   } catch (error) {
     // throw error;
-    console.log(error)
   }
 };
 
@@ -49,10 +47,6 @@ export const getPlacesByCategoryService = async (token: string, categoryId: stri
 }
 
 export const getCategoriesService = async (): Promise<CategoryModel[]> => {
-  try {
-    const res = await axios.get(`${BASE_URL}/category`)
-    return res.data
-  } catch (error) {
-    throw error
-  }
+  const res = await axios.get(`${BASE_URL}/category`)
+  return res.data
 }

@@ -1,18 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import {
-  MdArrowBack,
-  MdLogout,
-  MdPerson,
-  MdPersonOutline,
-  MdPlace,
-  MdSave,
-} from "react-icons/md";
+import { MdPlace } from "react-icons/md";
 import { HomeAppBar } from "../../components/HomeAppBar";
-import { PrimaryButton } from "../../components/common/Buttons";
 import { updateUsernameService } from "../../services/auth";
-import { Axios, isAxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 
 export default function ProfilePage() {
@@ -27,18 +19,24 @@ export default function ProfilePage() {
     } else {
       navigate(`/`, { replace: true });
     }
-  }, [username]);
+  }, [username, navigate, userId]);
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     if (userId !== null) {
       try {
         const data = await updateUsernameService(userId, inputUsername);
         if (data.username) {
           updateUsername(data.username);
-          toast.success("Nome de usuário atualizado com sucesso");
+          toast.dismiss();
+          toast.success("Nome de usuário atualizado com sucesso", {
+            position: "bottom-right",
+          });
+          navigate(`/`, { replace: true });
         }
       } catch (error) {
-        if (isAxiosError(error)) {
+        if (isAxiosError(error) && error.response?.data.message) {
+          toast.dismiss();
           toast.warning(error.response?.data.message);
         }
       }
