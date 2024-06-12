@@ -34,6 +34,7 @@ export function RoomPage() {
     handleStartGame,
     handleFinishGame,
     handleBackClick,
+    handleRemovePlayer,
   } = useSocket();
 
   if (loading) {
@@ -112,7 +113,12 @@ export function RoomPage() {
 
         <Divider />
 
-        <PlayersList players={players} admId={admId} userId={userId ?? ""} />
+        <PlayersList
+          players={players}
+          admId={admId}
+          userId={userId ?? ""}
+          handleRemove={handleRemovePlayer}
+        />
 
         <Divider />
 

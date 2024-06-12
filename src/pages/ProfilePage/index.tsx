@@ -24,21 +24,17 @@ export default function ProfilePage() {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (userId !== null) {
-      try {
-        const data = await updateUsernameService(userId, inputUsername);
-        if (data.username) {
-          updateUsername(data.username);
-          toast.dismiss();
-          toast.success("Nome de usuário atualizado com sucesso", {
-            position: "bottom-right",
-          });
-          navigate(`/`, { replace: true });
-        }
-      } catch (error) {
-        if (isAxiosError(error) && error.response?.data.message) {
-          toast.dismiss();
-          toast.warning(error.response?.data.message);
-        }
+      const data = await updateUsernameService(userId, inputUsername.trim());
+      if (data.username) {
+        updateUsername(data.username);
+        toast.dismiss();
+        toast.success("Nome de usuário atualizado com sucesso", {
+          position: "bottom-right",
+        });
+        navigate(`/`, { replace: true });
+      } else if (data.message) {
+        toast.dismiss();
+        toast.warning(data.message);
       }
     }
   };

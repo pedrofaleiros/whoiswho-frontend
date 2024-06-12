@@ -23,7 +23,9 @@ export function CategoriesADM({
           <button
             onClick={(e) => handle(e, c.name === category ? null : c.id)}
             key={c.id}
-            className="flex flex-row justify-between items-center gap-1 w-full max-w-md cursor-pointer border-none hover:bg-gray-800 rounded-lg p-2"
+            className={`flex flex-row justify-between items-center gap-1 mt-1 w-full max-w-md cursor-pointer border-none rounded-lg p-2 ${
+              c.name === category ? "bg-gray-800" : ""
+            }`}
           >
             <p className="text-base">{c.name}</p>
             {c.name === category ? (

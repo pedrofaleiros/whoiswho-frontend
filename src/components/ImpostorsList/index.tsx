@@ -29,7 +29,7 @@ function ImpostorsList({
       <ul className="flex flex-row justify-between">
         <div className="flex flex-row gap-2">
           {Array.from({ length: impostors }, (_, index) => (
-            <AppIconSM />
+            <AppIconSM key={index} />
           ))}
         </div>
       </ul>

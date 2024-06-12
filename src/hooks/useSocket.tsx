@@ -45,6 +45,18 @@ export const useSocket = () => {
     });
   };
 
+  const handleRemovePlayer = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    event.preventDefault();
+    socket.emit("removePlayer", {
+      userId: userId,
+      roomCode: room,
+      removeId: id,
+    });
+  };
+
   const handleStartGame = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     socket.emit(SocketConst.START_GAME, { userId: userId });
@@ -152,5 +164,6 @@ export const useSocket = () => {
     handleStartGame,
     handleFinishGame,
     handleBackClick,
+    handleRemovePlayer,
   };
 };
