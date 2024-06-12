@@ -24,10 +24,6 @@ export default function PlacesPage() {
 
   const [selected, setSelected] = useState<string | null>(null);
 
-  // const { token } = useAuth();
-
-  const [stateToken, setStateToken] = useState<string>("");
-
   const [isLoading, setisLoading] = useState<boolean>(false);
 
   const [search, setSearch] = useState<string>("");
@@ -96,7 +92,7 @@ export default function PlacesPage() {
       setisLoading(true);
 
       try {
-        const data = await getPlacesByCategoryService(stateToken, id);
+        const data = await getPlacesByCategoryService(id);
         setPlaces(data);
       } catch (error) {
       } finally {
@@ -156,18 +152,19 @@ export default function PlacesPage() {
         />
       </form>
 
-      <div className="mx-4 flex flex-col gap-2">
+      <div className="mx-4 flex flex-col">
         <TextTitle text="Categorias" />
         {categories.map((c) => {
           return (
-            <div key={c.id} className="flex flex-row items-center gap-1">
+            <div
+              onClick={(e) => {
+                handleCategory(e, c.id);
+              }}
+              key={c.id}
+              className="flex flex-row items-center gap-1 p-2 cursor-pointer rounded-lg hover:bg-gray-800"
+            >
               {c.id === selected && (
-                <MdCheckBox
-                  onClick={(e) => {
-                    handleCategory(e, c.id);
-                  }}
-                  className="text-green-500 size-6 cursor-pointer"
-                />
+                <MdCheckBox className="text-green-500 size-6 cursor-pointer" />
               )}
               {c.id !== selected && (
                 <MdCheckBoxOutlineBlank

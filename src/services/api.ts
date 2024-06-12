@@ -3,9 +3,7 @@ import { PlaceModel } from "../models/PlaceModel";
 import { CategoryModel } from "../models/CategoryModel";
 
 // export const BASE_URL: string = "https://backend-jk7g6zx7pq-rj.a.run.app";
-// export const BASE_URL: string = "http://ec2-18-231-107-238.sa-east-1.compute.amazonaws.com:8080";
-// export const BASE_URL: string = "http://172.30.4.48:8080";
-export const BASE_URL: string = "http://172.30.4.48:8080";
+export const BASE_URL: string = "http://172.30.4.48:3001";
 
 export const createRoomService = async (userId: string) => {
   try {
@@ -21,7 +19,7 @@ export const getUserRoomService = async (userId: string) => {
     const res = await axios.get(`${BASE_URL}/room/last/${userId}`);
     return res.data;
   } catch (error) {
-    // throw error;
+    return null;
   }
 };
 
@@ -36,7 +34,7 @@ export const getPlacesService = async (text: string | null): Promise<PlaceModel[
   }
 }
 
-export const getPlacesByCategoryService = async (token: string, categoryId: string): Promise<PlaceModel[]> => {
+export const getPlacesByCategoryService = async (categoryId: string): Promise<PlaceModel[]> => {
   try {
     const res = await axios.get(
       `${BASE_URL}/place/category/${categoryId}`

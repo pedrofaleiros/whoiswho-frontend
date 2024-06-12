@@ -38,7 +38,7 @@ export default function HomePage() {
       const id = parseCookies()["@whoiswho.userId"];
       if (id) {
         const data = await getUserRoomService(id);
-        if (typeof data.roomCode === "string") {
+        if (data.roomCode && typeof data.roomCode === "string") {
           setLastRoom(data.roomCode);
         }
       }
