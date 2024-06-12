@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { MdPlace } from "react-icons/md";
 import { HomeAppBar } from "../../components/HomeAppBar";
 import { updateUsernameService } from "../../services/auth";
-import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 
 export default function ProfilePage() {
