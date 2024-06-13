@@ -1,6 +1,6 @@
 import { GameModel } from "../../models/GameModel";
 import { ListTile } from "../common/ListTile";
-import { AppIcon, AppIconSM } from "../common/Logo";
+import { AppIconSM } from "../common/Logo";
 import {  TextTitle } from "../common/Texts";
 
 export default function GameResult({ place, professions }: GameModel) {

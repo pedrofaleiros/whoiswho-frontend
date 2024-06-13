@@ -1,4 +1,4 @@
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import {
   createContext,
   FC,
