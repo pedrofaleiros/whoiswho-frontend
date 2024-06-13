@@ -38,7 +38,7 @@ export default function HomePage() {
       const id = parseCookies()["@whoiswho.userId"];
       if (id) {
         const data = await getUserRoomService(id);
-        if (data.roomCode && typeof data.roomCode === "string") {
+        if (data && typeof data.roomCode === "string") {
           setLastRoom(data.roomCode);
         }
       }
@@ -52,8 +52,13 @@ export default function HomePage() {
           await handleCreateUser();
         } else {
           const data = await sessionUserService(user.userId);
-          if (data === null || !data.id || !data.username) {
+          if (data === null) {
             await handleCreateUser();
+          } else {
+            createUser({
+              userId: data.id,
+              username: data.username,
+            });
           }
         }
       } catch (_) {

@@ -14,7 +14,7 @@ export const useSocket = () => {
   const { userId, session } = useAuth();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [admId, setAdmId] = useState<string>("");
   const [gameStatus, setGameStatus] = useState<string>("idle");
   const [category, setCategory] = useState<string | null>(null);
@@ -100,8 +100,9 @@ export const useSocket = () => {
 
     socket.on(SocketConst.GAME_STATUS, (data) => {
       setLoading(true);
-      setTimeout(() => setLoading(false), 100);
       if (typeof data === "string") setGameStatus(data);
+      setLoading(false);
+      // setTimeout(() => setLoading(false), 100);
     });
 
     socket.on(SocketConst.GAME_PLAYERS, (data) => {

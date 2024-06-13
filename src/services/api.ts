@@ -2,8 +2,8 @@ import axios from "axios";
 import { PlaceModel } from "../models/PlaceModel";
 import { CategoryModel } from "../models/CategoryModel";
 
-// export const BASE_URL: string = "https://backend-jk7g6zx7pq-rj.a.run.app";
-export const BASE_URL: string = "http://172.30.4.48:3001";
+export const BASE_URL: string = "https://backend-bv2updfska-rj.a.run.app";
+// export const BASE_URL: string = "http://localhost:8080";
 
 export const createRoomService = async (userId: string) => {
   try {

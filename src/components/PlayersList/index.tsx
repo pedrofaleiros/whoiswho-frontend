@@ -1,4 +1,4 @@
-import { MdRemove } from "react-icons/md";
+import { MdRemoveCircleOutline } from "react-icons/md";
 import { PlayerModel } from "../../models/PlayerModel";
 import { ListTile } from "../common/ListTile";
 import { TextTitle } from "../common/Texts";
@@ -39,7 +39,8 @@ export default function PlayersList({
                         handleRemove(e, p.id);
                       }}
                     >
-                      <MdRemove />
+                      {/* <MdRemove /> */}
+                      <MdRemoveCircleOutline className="size-6" />
                     </button>
                   ) : (
                     ""
